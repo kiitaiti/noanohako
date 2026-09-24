@@ -1,0 +1,47 @@
+[
+  {
+    "id": "sns-influencer",
+    "slug": "sns-influencer",
+    "title": "インフルエンサーSNS運営",
+    "category": "SNS運用",
+    "publishedAt": "2026-09-01T00:00:00.000Z",
+    "summary": "インフルエンサーSNS運営の実績です。",
+    "body": "<p>インフルエンサーSNS運営の実績です。詳しい内容は順次掲載します。</p>"
+  },
+  {
+    "id": "game-commentary-1",
+    "slug": "game-commentary-1",
+    "title": "ゲーム実況者動画作成",
+    "category": "動画編集",
+    "publishedAt": "2026-08-20T00:00:00.000Z",
+    "summary": "ゲーム実況者動画作成の実績です。",
+    "body": "<p>ゲーム実況者動画作成の実績です。詳しい内容は順次掲載します。</p>"
+  },
+  {
+    "id": "news-youtube",
+    "slug": "news-youtube",
+    "title": "ニュース系YouTubeチャンネル運営",
+    "category": "YouTube運営",
+    "publishedAt": "2026-08-10T00:00:00.000Z",
+    "summary": "ニュース系YouTubeチャンネル運営の実績です。",
+    "body": "<p>ニュース系YouTubeチャンネル運営の実績です。詳しい内容は順次掲載します。</p>"
+  },
+  {
+    "id": "game-commentary-2",
+    "slug": "game-commentary-2",
+    "title": "ゲーム実況者動画作成",
+    "category": "動画編集",
+    "publishedAt": "2026-07-25T00:00:00.000Z",
+    "summary": "ゲーム実況者動画作成の実績です。",
+    "body": "<p>ゲーム実況者動画作成の実績です。詳しい内容は順次掲載します。</p>"
+  },
+  {
+    "id": "vtuber-video",
+    "slug": "vtuber-video",
+    "title": "Vtuber動画作成",
+    "category": "動画編集",
+    "publishedAt": "2026-07-10T00:00:00.000Z",
+    "summary": "Vtuber動画作成の実績です。",
+    "body": "<p>Vtuber動画作成の実績です。詳しい内容は順次掲載します。</p>"
+  }
+]

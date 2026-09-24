@@ -1,0 +1,8 @@
+{
+  "name": "のあのはこ｜就労継続支援B型事業所",
+  "short_name": "のあのはこ",
+  "icons": [{ "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }, { "src": "/favicon-512.png", "sizes": "512x512", "type": "image/png" }],
+  "theme_color": "#f7f6f2",
+  "background_color": "#f7f6f2",
+  "display": "browser"
+}

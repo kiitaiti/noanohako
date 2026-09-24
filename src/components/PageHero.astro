@@ -1,0 +1,70 @@
+---
+interface Props {
+  en: string;
+  title: string;
+  lead?: string;
+  breadcrumbs: { name: string; path: string }[];
+}
+const { en, title, lead, breadcrumbs } = Astro.props;
+---
+
+<section class="page-hero">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="パンくずリスト">
+      <ol>
+        <li><a href="/">ホーム</a></li>
+        {
+          breadcrumbs.map((b, i) => (
+            <li>
+              {i === breadcrumbs.length - 1 ? <span aria-current="page">{b.name}</span> : <a href={b.path}>{b.name}</a>}
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+    <p class="eyebrow">{en}</p>
+    <h1 class="page-hero__title">{title}</h1>
+    {lead && <p class="lead page-hero__lead">{lead}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    padding-block: clamp(32px, 5vw, 64px) clamp(40px, 6vw, 80px);
+    background:
+      radial-gradient(60% 80% at 100% 0%, var(--c-brand-tint) 0%, transparent 70%),
+      var(--c-bg);
+    border-bottom: 1px solid var(--c-line-soft);
+  }
+  .page-hero__title {
+    font-size: var(--fs-h1);
+    letter-spacing: 0.02em;
+  }
+  .page-hero__lead {
+    margin-top: 20px;
+  }
+  .breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 28px;
+    font-size: var(--fs-xs);
+    color: var(--c-ink-3);
+  }
+  .breadcrumb li + li::before {
+    content: '/';
+    margin-right: 8px;
+    color: var(--c-line);
+  }
+  .breadcrumb a {
+    color: var(--c-ink-3);
+    text-decoration: none;
+  }
+  .breadcrumb a:hover {
+    color: var(--c-brand);
+    text-decoration: underline;
+  }
+</style>

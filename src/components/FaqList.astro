@@ -1,0 +1,156 @@
+---
+/** アコーディオン式FAQ。details/summary なので JS 無しでも開閉できる。 */
+interface Props {
+  items: { q: string; a: string }[];
+  openFirst?: boolean;
+}
+const { items, openFirst = false } = Astro.props;
+---
+
+<div class="faq">
+  {
+    items.map((it, i) => (
+      <details class="faq__item" open={openFirst && i === 0} data-reveal style={`--reveal-delay:${Math.min(i, 6) * 0.05}s`}>
+        <summary class="faq__q">
+          <span class="faq__mark" aria-hidden="true">Q</span>
+          <span class="faq__q-text">{it.q}</span>
+          <span class="faq__icon" aria-hidden="true" />
+        </summary>
+        <div class="faq__a">
+          <div class="faq__a-inner">
+            <span class="faq__mark faq__mark--a" aria-hidden="true">A</span>
+            <p>{it.a}</p>
+          </div>
+        </div>
+      </details>
+    ))
+  }
+</div>
+
+<style>
+  .faq {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .faq__item {
+    background: var(--c-surface);
+    border: 1px solid var(--c-line-soft);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .faq__item:hover,
+  .faq__item[open] {
+    border-color: var(--c-brand-soft);
+    box-shadow: var(--shadow-sm);
+  }
+  .faq__q {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 700;
+    font-size: var(--fs-base);
+    line-height: 1.6;
+  }
+  .faq__q::-webkit-details-marker {
+    display: none;
+  }
+  .faq__mark {
+    font-family: var(--f-en);
+    font-weight: 800;
+    color: var(--c-brand);
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border: 1.5px solid var(--c-brand);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    flex: none;
+  }
+  .faq__mark--a {
+    color: var(--c-accent);
+    border-color: var(--c-accent);
+  }
+  .faq__icon {
+    width: 22px;
+    height: 22px;
+    position: relative;
+    flex: none;
+  }
+  .faq__icon::before,
+  .faq__icon::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    background: var(--c-ink-2);
+    border-radius: 2px;
+    transition: transform 0.3s var(--ease);
+  }
+  .faq__icon::before {
+    width: 14px;
+    height: 2px;
+  }
+  .faq__icon::after {
+    width: 2px;
+    height: 14px;
+  }
+  .faq__item[open] .faq__icon::after {
+    transform: rotate(90deg);
+  }
+  .faq__a {
+    /* JS 有効時は高さアニメーション。無効時も自然に開く */
+    padding: 0 20px 20px;
+  }
+  .faq__a-inner {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    padding-top: 4px;
+    border-top: 1px dashed var(--c-line-soft);
+    padding-top: 16px;
+  }
+  .faq__a p {
+    margin: 0;
+    color: var(--c-ink-2);
+  }
+  @media (max-width: 600px) {
+    .faq__q {
+      padding: 16px;
+    }
+    .faq__a {
+      padding: 0 16px 16px;
+    }
+  }
+</style>
+
+<script>
+  // 滑らかな開閉（reduced-motion ではアニメーションなし）
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLDetailsElement>('.faq__item').forEach((d) => {
+    const summary = d.querySelector<HTMLElement>('summary')!;
+    const content = d.querySelector<HTMLElement>('.faq__a')!;
+    if (reduce || !('animate' in content)) return;
+    summary.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (d.open) {
+        const h = content.offsetHeight;
+        const anim = content.animate([{ height: h + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 220, easing: 'ease-out' });
+        content.style.overflow = 'hidden';
+        anim.onfinish = () => { d.open = false; content.style.overflow = ''; };
+      } else {
+        d.open = true;
+        const h = content.offsetHeight;
+        content.style.overflow = 'hidden';
+        const anim = content.animate([{ height: '0px', opacity: 0 }, { height: h + 'px', opacity: 1 }], { duration: 280, easing: 'cubic-bezier(.22,1,.36,1)' });
+        anim.onfinish = () => { content.style.overflow = ''; };
+      }
+    });
+  });
+</script>

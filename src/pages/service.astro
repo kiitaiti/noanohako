@@ -1,0 +1,330 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import KeyFacts from '../components/KeyFacts.astro';
+import CTASection from '../components/CTASection.astro';
+import { site } from '../data/site';
+import cafeImg from '../assets/photos/cafe-space.jpg';
+import cafePeopleImg from '../assets/photos/cafe-space-people.jpg';
+import pcRowImg from '../assets/photos/pc-row.jpg';
+import pcCloseImg from '../assets/photos/pc-closeup.jpg';
+import logoWallImg from '../assets/photos/main-floor-logo-wall.jpg';
+import roomImg from '../assets/photos/private-room-3.jpg';
+import noaboxLogo from '../assets/photos/noabox-logo-blue.png';
+
+const title = '作業と支援｜カフェ中心・クリエイティブ中心・支援体制・施設';
+const description =
+  'のあのはこ（相模原市南区・町田駅 徒歩6分）の作業内容。興味や得意に合わせて、カフェを中心とした作業（接客など）か、クリエイティブを中心とした作業（動画編集・SNS更新・3DCG・AI活用）を選べます。どちらを選んでも通所時間10:00〜15:00・工賃 時給500円は同じです。';
+const crumbs = [{ name: '作業と支援', path: '/service/' }];
+---
+
+<Base title={title} description={description} path="/service/" breadcrumbs={crumbs}>
+  <PageHero
+    en="Service & Support"
+    title="作業と支援"
+    lead="興味や得意に合わせて、カフェまたはクリエイティブを中心とした作業を選べます。どちらを選んでも通所時間と工賃は同じです。一人ひとりに合わせた支援と、実際の設備でお迎えします。"
+    breadcrumbs={crumbs}
+  />
+
+  <section class="section summary" aria-labelledby="summary-title">
+    <div class="container">
+      <h2 id="summary-title" class="visually-hidden">作業内容の概要</h2>
+      <div class="summary__grid">
+        <p class="summary__text" data-reveal>
+          のあのはこでは、就労継続支援B型のサービスとして、カフェ空間や制作用のパソコンなど実際の設備を使った作業を行っています。作業の「方向性」を選ぶ仕組みで、料金や通所時間が異なるコースではありません。どの作業に取り組むかは、体調や希望をもとにスタッフと相談しながら決めていきます。
+        </p>
+        <KeyFacts compact />
+      </div>
+    </div>
+  </section>
+
+  <!-- カフェ中心 -->
+  <section class="section section--white work" id="cafe" aria-labelledby="cafe-title">
+    <div class="container">
+      <div class="work__head" data-reveal>
+        <p class="work__tag">カフェ中心</p>
+        <h2 id="cafe-title" class="h2">人と関わる仕事を、カフェ空間で。</h2>
+        <p class="lead">接客など、カフェ業務に関わる作業を中心に取り組みます。人と関わることが好きな方、飲食やサービスの仕事に興味がある方に向いています。</p>
+      </div>
+      <div class="work__grid">
+        <figure class="work__fig work__fig--main" data-reveal>
+          <Photo src={cafePeopleImg} alt="カフェスペースのハイテーブルに座る3人。奥にカウンターと棚が見える" sizes="(min-width: 900px) 58vw, 100vw" widths={[640, 960, 1280, 1600]} aspect="4/3" position="50% 60%" />
+          <figcaption>カフェスペース</figcaption>
+        </figure>
+        <figure class="work__fig" data-reveal style="--reveal-delay:.08s">
+          <Photo src={cafeImg} alt="カフェスペースのハイテーブルと椅子、カウンター" sizes="(min-width: 900px) 38vw, 100vw" widths={[480, 600]} aspect="3/2" />
+          <figcaption>ハイテーブル席</figcaption>
+        </figure>
+        <div class="work__detail" data-reveal style="--reveal-delay:.12s">
+          <h3 class="h3">主な作業</h3>
+          <ul class="work__list">
+            <li><strong>接客</strong><span>お客さまへの対応など、カフェでの接客に関わる作業</span></li>
+            <li><strong>カフェ業務に関わる作業</strong><span>ドリンクやカウンターまわりなど、カフェの運営に関わる作業</span></li>
+          </ul>
+          <p class="note">担当する作業の範囲は、ご本人の状況や希望に合わせて相談しながら決めます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- クリエイティブ中心 -->
+  <section class="section work work--creative" id="creative" aria-labelledby="creative-title">
+    <div class="container">
+      <div class="work__head" data-reveal>
+        <p class="work__tag work__tag--creative">クリエイティブ中心</p>
+        <h2 id="creative-title" class="h2">パソコンでつくる仕事を、制作環境で。</h2>
+        <p class="lead">動画編集、SNS更新、3DCG、AI活用など、制作やパソコンを使う作業を中心に取り組みます。ものづくりやデジタルに興味がある方に向いています。</p>
+      </div>
+      <div class="work__grid">
+        <figure class="work__fig work__fig--main" data-reveal>
+          <Photo src={pcRowImg} alt="制作用のパソコンが並ぶ作業席。各席にモニター、キーボード、ヘッドセットが用意されている" sizes="(min-width: 900px) 58vw, 100vw" widths={[640, 960, 1280, 1600]} aspect="4/3" position="50% 45%" />
+          <figcaption>制作用の作業席</figcaption>
+        </figure>
+        <figure class="work__fig" data-reveal style="--reveal-delay:.08s">
+          <Photo src={pcCloseImg} alt="作業席に設置されたパソコン本体のアップ" sizes="(min-width: 900px) 38vw, 100vw" widths={[480, 768, 1024]} aspect="3/2" position="50% 40%" />
+          <figcaption>制作用パソコン</figcaption>
+        </figure>
+        <div class="work__detail" data-reveal style="--reveal-delay:.12s">
+          <h3 class="h3">主な作業</h3>
+          <ul class="work__list">
+            <li><strong>動画編集</strong><span>カットやテロップ入れなど、動画の編集作業</span></li>
+            <li><strong>SNS更新</strong><span>投稿の準備や更新など、SNSの運用に関わる作業</span></li>
+            <li><strong>3DCG</strong><span>3DCGを使った制作作業</span></li>
+            <li><strong>AI活用</strong><span>AIツールを使った作業や制作</span></li>
+          </ul>
+          <p class="note">これまでの制作例は <a href="/works/">制作実績</a> をご覧ください。作業の範囲や進め方は、ご本人の状況に合わせて相談しながら決めます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- そのほか -->
+  <section class="section section--soft other" id="other" aria-labelledby="other-title">
+    <div class="container other__grid">
+      <div data-reveal>
+        <p class="eyebrow">Other</p>
+        <h2 id="other-title" class="h2">そのほかの作業</h2>
+      </div>
+      <div data-reveal style="--reveal-delay:.08s">
+        <p class="lead">カフェ・クリエイティブのほかにも、事業所内のさまざまな作業があります。体調やその日の状況に合わせて取り組めます。</p>
+        <ul class="other__list">
+          <li>データ入力</li>
+          <li>清掃業務</li>
+          <li>内職</li>
+          <li>そのほか事業所内の作業</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 支援 -->
+  <section class="section section--white sup" id="support" aria-labelledby="sup-title">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div data-reveal>
+          <p class="eyebrow">Support</p>
+          <h2 id="sup-title" class="h2">一人ひとりに合わせた支援</h2>
+        </div>
+        <p class="lead" data-reveal style="--reveal-delay:.08s">体調や障がいのことで、いきなり働くことに不安がある方が、自分のペースで「やってみたい」「できた」を積み重ねられる場所でありたいと考えています。</p>
+      </div>
+      <div class="sup__grid">
+        <article class="sup__item" data-reveal><h3>個別支援計画</h3><p>ご本人の希望や状況をもとに計画を作成し、目標や取り組みを一緒に確認しながら進めます。</p></article>
+        <article class="sup__item" data-reveal style="--reveal-delay:.06s"><h3>健康・生活リズムのサポート</h3><p>通所を続けるための体調や生活リズムを、無理のない形で一緒に整えます。</p></article>
+        <article class="sup__item" data-reveal style="--reveal-delay:.12s"><h3>対人・就労スキルの育成</h3><p>あいさつや報告、役割分担など、働くうえで役立つ力を日々の活動のなかで育てます。</p></article>
+        <article class="sup__item" data-reveal style="--reveal-delay:.18s"><h3>作品・実績づくりの支援</h3><p>制作物や作業の経験を形に残し、次の一歩につながる実績づくりをサポートします。</p></article>
+      </div>
+      <p class="note">スタッフ体制や資格の詳細、関係機関（相談支援事業所・医療機関など）との連携については、見学・相談の際にご案内します。</p>
+    </div>
+  </section>
+
+  <!-- 施設 -->
+  <section class="section fac" id="facility" aria-labelledby="fac-title">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div data-reveal>
+          <p class="eyebrow">Facility</p>
+          <h2 id="fac-title" class="h2">実際の空間と設備</h2>
+        </div>
+        <p class="lead" data-reveal style="--reveal-delay:.08s">{site.address.full}（{site.nearestStation} {site.walk}）。同じ運営法人のeスポーツ施設「NOABOX」と連携した環境で活動しています。</p>
+      </div>
+      <div class="fac__gallery">
+        <figure class="fac__fig fac__fig--l" data-reveal><Photo src={logoWallImg} alt="メインフロア。壁面のロゴ、六角形の照明、並んだパソコン席" sizes="(min-width: 900px) 60vw, 100vw" widths={[640, 960, 1280, 1600]} aspect="3/2" /><figcaption>メインフロア</figcaption></figure>
+        <figure class="fac__fig" data-reveal style="--reveal-delay:.06s"><Photo src={roomImg} alt="3人用の個室。3台のパソコンとモニターが並ぶ" sizes="(min-width: 900px) 38vw, 100vw" widths={[480, 768, 1024]} aspect="3/2" /><figcaption>個室</figcaption></figure>
+      </div>
+      <ul class="fac__equip" data-reveal>
+        <li>制作用パソコン（動画編集・3DCGなどに対応）</li>
+        <li>高速インターネット回線・ヘッドセットマイク</li>
+        <li>カフェ設備（ドリンク・簡易調理・洗い場）</li>
+        <li>少人数用の個室、休憩・個別面談スペース</li>
+      </ul>
+      <div class="fac__partner" data-reveal>
+        <div class="fac__partner-logo"><Photo src={noaboxLogo} alt="NOABOX ロゴ" sizes="96px" widths={[192]} /></div>
+        <p>NOABOXは一般のお客さま向けのeスポーツ施設で、のあのはこの就労支援サービスとは別のものです。営業時間や利用料金は <a href={site.partner.url} target="_blank" rel="noopener">NOABOX公式サイト</a> をご確認ください。</p>
+      </div>
+    </div>
+  </section>
+
+  <CTASection title="どちらが合うか迷っていても大丈夫です。" text="見学・体験で実際の空間と作業を見ていただき、相談しながら方向性を決めていけます。" />
+</Base>
+
+<style>
+  .summary {
+    padding-block: clamp(40px, 6vw, 72px);
+  }
+  .summary__grid {
+    display: grid;
+    gap: 28px;
+  }
+  .summary__text {
+    max-width: 44em;
+    margin: 0;
+    color: var(--c-ink-2);
+  }
+  .work__head {
+    max-width: 44em;
+    margin-bottom: clamp(28px, 4vw, 48px);
+  }
+  .work__head .h2 {
+    margin-bottom: 16px;
+  }
+  .work__tag {
+    display: inline-block;
+    font-weight: 700;
+    font-size: var(--fs-sm);
+    color: var(--c-brand-deep);
+    background: var(--c-brand-soft);
+    padding: 6px 14px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+  }
+  .work__tag--creative {
+    color: #7a5310;
+    background: var(--c-accent-soft);
+  }
+  .work__grid {
+    display: grid;
+    gap: 20px;
+  }
+  @media (min-width: 900px) {
+    .work__grid {
+      grid-template-columns: 3fr 2fr;
+      grid-template-rows: auto auto;
+    }
+    .work__fig--main {
+      grid-row: 1 / 3;
+    }
+    .work--creative .work__fig--main {
+      grid-column: 2;
+      grid-row: 1 / 3;
+    }
+    .work--creative .work__fig:not(.work__fig--main),
+    .work--creative .work__detail {
+      grid-column: 1;
+    }
+  }
+  .work__fig {
+    margin: 0;
+  }
+  .work__fig :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+  .work__fig--main :global(picture),
+  .work__fig--main :global(img) {
+    height: 100%;
+  }
+  .work__fig figcaption {
+    margin-top: 8px;
+    font-size: var(--fs-xs);
+    color: var(--c-ink-3);
+  }
+  .work__detail {
+    background: var(--c-bg);
+    border-radius: var(--radius-lg);
+    padding: 26px 28px;
+  }
+  .work--creative .work__detail {
+    background: var(--c-surface);
+  }
+  .work__detail .h3 {
+    margin-bottom: 14px;
+  }
+  .work__list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+    display: grid;
+    gap: 10px;
+  }
+  .work__list li {
+    display: grid;
+    gap: 2px;
+    padding: 12px 14px;
+    background: var(--c-surface);
+    border: 1px solid var(--c-line-soft);
+    border-radius: var(--radius-sm);
+  }
+  .work--creative .work__list li {
+    background: var(--c-bg);
+  }
+  .work__list span {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-2);
+  }
+  .other__grid {
+    display: grid;
+    gap: 24px;
+  }
+  @media (min-width: 900px) {
+    .other__grid {
+      grid-template-columns: 4fr 8fr;
+      gap: 64px;
+    }
+  }
+  .other__list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .other__list li {
+    padding: 8px 16px;
+    background: var(--c-surface);
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+    font-size: var(--fs-sm);
+  }
+  .sup__grid {
+    display: grid;
+    gap: 14px;
+  }
+  @media (min-width: 700px) { .sup__grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1100px) { .sup__grid { grid-template-columns: repeat(4, 1fr); } }
+  .sup__item {
+    background: var(--c-bg);
+    border-radius: var(--radius);
+    padding: 26px 22px;
+    border-top: 3px solid var(--c-brand);
+  }
+  .sup__item h3 { font-size: var(--fs-lg); margin-bottom: 8px; }
+  .sup__item p { margin: 0; color: var(--c-ink-2); font-size: var(--fs-sm); }
+  .sup .note { margin-top: 20px; }
+  .fac__gallery { display: grid; gap: 16px; margin-bottom: 24px; }
+  @media (min-width: 900px) { .fac__gallery { grid-template-columns: 3fr 2fr; } }
+  .fac__fig { margin: 0; }
+  .fac__fig :global(picture) { display: block; border-radius: var(--radius-lg); overflow: hidden; }
+  .fac__fig :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .fac__fig figcaption { margin-top: 8px; font-size: var(--fs-xs); color: var(--c-ink-3); }
+  .fac__equip { list-style: none; padding: 0; display: grid; gap: 10px; margin-bottom: 28px; }
+  @media (min-width: 700px) { .fac__equip { grid-template-columns: repeat(2, 1fr); } }
+  .fac__equip li { padding: 12px 16px 12px 36px; background: var(--c-surface); border-radius: var(--radius-sm); position: relative; font-size: var(--fs-sm); }
+  .fac__equip li::before { content: ''; position: absolute; left: 16px; top: 50%; width: 8px; height: 8px; transform: translateY(-50%); border-radius: 2px; background: var(--c-brand); }
+  .fac__partner { display: grid; gap: 16px; padding: 22px 24px; border: 1px solid var(--c-line); border-radius: var(--radius-lg); align-items: center; }
+  @media (min-width: 700px) { .fac__partner { grid-template-columns: 96px 1fr; gap: 28px; } }
+  .fac__partner-logo { width: 80px; }
+  .fac__partner p { margin: 0; font-size: var(--fs-sm); color: var(--c-ink-2); }
+</style>

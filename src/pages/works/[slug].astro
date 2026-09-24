@@ -1,0 +1,135 @@
+---
+import Base from '../../layouts/Base.astro';
+import CTASection from '../../components/CTASection.astro';
+import { getWorks, formatDate, toISODate, type WorkItem } from '../../lib/cms';
+import { site } from '../../data/site';
+import { featuredWorks } from '../../data/featured-works';
+import { Picture } from 'astro:assets';
+
+export async function getStaticPaths() {
+  const works = await getWorks();
+  return works.map((n) => ({ params: { slug: n.slug }, props: { item: n } }));
+}
+const { item } = Astro.props as { item: WorkItem };
+const local = featuredWorks.find((w) => w.slug === item.slug);
+const path = `/works/${item.slug}/`;
+const crumbs = [
+  { name: '制作実績', path: '/works/' },
+  { name: item.title, path },
+];
+const description = item.summary || item.body.replace(/<[^>]+>/g, '').slice(0, 110);
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? site.url;
+const articleLd = {
+  '@type': 'CreativeWork',
+  name: item.title,
+  datePublished: item.publishedAt,
+  dateModified: item.updatedAt || item.publishedAt,
+  mainEntityOfPage: `${siteUrl}${path}`,
+  author: { '@id': `${siteUrl}/#organization` },
+  publisher: { '@id': `${siteUrl}/#organization` },
+  ...(item.image ? { image: item.image.url } : {}),
+  genre: item.category,
+  inLanguage: 'ja',
+};
+---
+
+<Base
+  title={item.title}
+  description={description}
+  path={path}
+  ogType="article"
+  ogImage={item.image?.url}
+  breadcrumbs={crumbs}
+  jsonLd={articleLd}
+  publishedTime={item.publishedAt}
+  modifiedTime={item.updatedAt}
+>
+  <article class="article">
+    <header class="article__head">
+      <div class="container container--narrow">
+        <nav class="breadcrumb" aria-label="パンくずリスト">
+          <ol>
+            <li><a href="/">ホーム</a></li>
+            <li><a href="/works/">制作実績</a></li>
+            <li><span aria-current="page">{item.title}</span></li>
+          </ol>
+        </nav>
+        <div class="article__meta">
+          <time datetime={toISODate(item.publishedAt)}>{formatDate(item.publishedAt)}</time>
+          <span class="article__cat">{item.category}</span>
+        </div>
+        <h1 class="article__title">{item.title}</h1>
+      </div>
+    </header>
+    <div class="container container--narrow">
+      {item.image ? (
+        <img class="article__thumb" src={item.image.url + '?w=1600&fm=webp&q=80'} alt="" width={item.image.width} height={item.image.height} loading="eager" />
+      ) : local ? (
+        <Picture class="article__thumb" src={local.image} alt="" widths={[800, 1600]} sizes="(min-width: 900px) 820px, 100vw" formats={['avif', 'webp']} fallbackFormat="jpg" loading="eager" />
+      ) : null}
+      <div class="prose" set:html={item.body} />
+      {false && (
+        <p class="article__ext"><span></span></p>
+      )}
+      <p class="article__back"><a href="/works/" class="text-link">← 制作実績一覧へ戻る</a></p>
+    </div>
+  </article>
+  <CTASection />
+</Base>
+
+<style>
+  .article__head {
+    padding-block: clamp(32px, 5vw, 64px) clamp(28px, 4vw, 48px);
+    border-bottom: 1px solid var(--c-line-soft);
+    margin-bottom: clamp(32px, 5vw, 56px);
+  }
+  .breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    font-size: var(--fs-xs);
+    color: var(--c-ink-3);
+  }
+  .breadcrumb li + li::before {
+    content: '/';
+    margin-right: 8px;
+    color: var(--c-line);
+  }
+  .breadcrumb a {
+    color: var(--c-ink-3);
+    text-decoration: none;
+  }
+  .article__meta {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .article__meta time {
+    font-family: var(--f-en);
+    font-weight: 700;
+    color: var(--c-ink-3);
+  }
+  .article__cat {
+    font-size: var(--fs-xs);
+    padding: 3px 10px;
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+  }
+  .article__title {
+    font-size: var(--fs-h2);
+  }
+  .article__thumb {
+    border-radius: var(--radius-lg);
+    margin-bottom: 32px;
+  }
+  .article__ext {
+    margin-top: 32px;
+  }
+  .article__back {
+    margin: 48px 0 var(--section);
+  }
+</style>

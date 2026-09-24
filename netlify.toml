@@ -1,0 +1,148 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# プレビュー環境（deploy-preview / branch-deploy）は検索結果に混入させない
+[context.deploy-preview]
+  command = "SITE_URL=$DEPLOY_PRIME_URL npm run build"
+[context.deploy-preview.environment]
+  ASTRO_NOINDEX = "true"
+[context.branch-deploy]
+  command = "SITE_URL=$DEPLOY_PRIME_URL npm run build"
+[context.branch-deploy.environment]
+  ASTRO_NOINDEX = "true"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ---- 旧URL（WordPress）からの恒久リダイレクト。詳細は docs/URL対応表.md ----
+[[redirects]]
+  from = "/work"
+  to = "/service/"
+  status = 301
+[[redirects]]
+  from = "/work/"
+  to = "/service/"
+  status = 301
+[[redirects]]
+  from = "/play"
+  to = "/service/"
+  status = 301
+[[redirects]]
+  from = "/play/"
+  to = "/service/"
+  status = 301
+[[redirects]]
+  from = "/support"
+  to = "/service/"
+  status = 301
+[[redirects]]
+  from = "/support/"
+  to = "/service/"
+  status = 301
+[[redirects]]
+  from = "/news"
+  to = "/column/"
+  status = 301
+[[redirects]]
+  from = "/news/*"
+  to = "/column/:splat"
+  status = 301
+[[redirects]]
+  from = "/category/news"
+  to = "/column/"
+  status = 301
+[[redirects]]
+  from = "/category/news/*"
+  to = "/column/"
+  status = 301
+[[redirects]]
+  from = "/category/info"
+  to = "/column/"
+  status = 301
+[[redirects]]
+  from = "/category/info/*"
+  to = "/column/"
+  status = 301
+[[redirects]]
+  from = "/42"
+  to = "/column/tvk-news-link/"
+  status = 301
+[[redirects]]
+  from = "/42/"
+  to = "/column/tvk-news-link/"
+  status = 301
+[[redirects]]
+  from = "/9"
+  to = "/column/website-launch/"
+  status = 301
+[[redirects]]
+  from = "/9/"
+  to = "/column/website-launch/"
+  status = 301
+[[redirects]]
+  from = "/works/%E3%82%B5%E3%83%A0%E3%83%8D%E3%82%A4%E3%83%AB%E5%88%B6%E4%BD%9C/"
+  to = "/works/"
+  status = 301
+[[redirects]]
+  from = "/works/vtuber%E5%8B%95%E7%94%BB%E5%88%87%E3%82%8A%E6%8A%9C%E3%81%8D/"
+  to = "/works/vtuber-video/"
+  status = 301
+[[redirects]]
+  from = "/works/サムネイル制作/"
+  to = "/works/"
+  status = 301
+[[redirects]]
+  from = "/works/vtuber動画切り抜き/"
+  to = "/works/vtuber-video/"
+  status = 301
+[[redirects]]
+  from = "/works_tag/*"
+  to = "/works/"
+  status = 301
+[[redirects]]
+  from = "/author/*"
+  to = "/column/"
+  status = 301
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap-index.xml"
+  status = 301
+[[redirects]]
+  from = "/wp-sitemap.xml"
+  to = "/sitemap-index.xml"
+  status = 301
+[[redirects]]
+  from = "/wp-sitemap-*"
+  to = "/sitemap-index.xml"
+  status = 301
+[[redirects]]
+  from = "/feed"
+  to = "/column/"
+  status = 301
+[[redirects]]
+  from = "/feed/"
+  to = "/column/"
+  status = 301
+# WordPress 管理系URLは 404（転送しない）
+[[redirects]]
+  from = "/wp-admin/*"
+  to = "/404/"
+  status = 404
+[[redirects]]
+  from = "/wp-login.php"
+  to = "/404/"
+  status = 404

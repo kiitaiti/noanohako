@@ -1,0 +1,208 @@
+---
+/**
+ * ヒーロー直下の実績ストリップ。16:9 のカードがゆっくり右→左へ流れ続ける（ホバーで停止／両端の矢印／ドラッグ）。
+ * 掲載内容は src/data/featured-works.ts で固定。
+ */
+import { Picture } from 'astro:assets';
+import { featuredWorks } from '../data/featured-works';
+---
+
+<section class="fw" aria-labelledby="fw-title">
+  <div class="container fw__head">
+    <div>
+      <p class="eyebrow">Works</p>
+      <h2 id="fw-title" class="h2">制作実績</h2>
+    </div>
+    <a href="/works/" class="text-link">すべての実績を見る
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+
+  <div class="fw__viewport" data-fw>
+    <button type="button" class="fw__arrow fw__arrow--prev" data-fw-prev aria-label="前の実績へ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button type="button" class="fw__arrow fw__arrow--next" data-fw-next aria-label="次の実績へ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="fw__track" data-fw-track>
+      {
+        [0, 1].map((copy) =>
+          featuredWorks.map((w, i) => (
+            <a class="fw__card" href={`/works/${w.slug}/`} aria-hidden={copy === 1 ? 'true' : undefined} tabindex={copy === 1 ? -1 : undefined}>
+              <div class="fw__thumb">
+                <Picture src={w.image} alt="" widths={[480, 800, 1200]} sizes="(min-width: 900px) 40vw, 82vw" formats={['avif', 'webp']} fallbackFormat="jpg" quality={80} loading={copy === 0 && i < 3 ? 'eager' : 'lazy'} decoding="async" />
+              </div>
+              <div class="fw__meta">
+                <span class="fw__cat">{w.category}</span>
+                <span class="fw__title">{w.title}</span>
+              </div>
+            </a>
+          )),
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .fw {
+    padding-block: clamp(56px, 8vw, 96px) clamp(40px, 6vw, 72px);
+    background: var(--c-bg-soft);
+    overflow: hidden;
+  }
+  .fw__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+  .fw__viewport {
+    position: relative;
+  }
+  .fw__track {
+    display: flex;
+    gap: var(--fw-gap, 20px);
+    --fw-gap: clamp(14px, 1.6vw, 24px);
+    width: max-content;
+    padding: 12px 0 40px;
+    will-change: transform;
+    cursor: grab;
+  }
+  .fw__track.is-dragging {
+    cursor: grabbing;
+  }
+  .fw__card {
+    flex: 0 0 auto;
+    width: min(82vw, 560px);
+    text-decoration: none;
+    color: var(--c-ink);
+    background: var(--c-surface);
+    border-radius: var(--radius-lg);
+    padding: 12px;
+    box-shadow:
+      0 2px 6px rgba(31, 39, 51, 0.06),
+      0 12px 32px rgba(31, 39, 51, 0.14);
+    transition: transform 0.35s var(--ease), box-shadow 0.35s;
+  }
+  @media (min-width: 900px) {
+    .fw__card {
+      width: clamp(420px, 40vw, 600px);
+    }
+  }
+  .fw__card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 4px 10px rgba(31, 39, 51, 0.08),
+      0 22px 48px rgba(31, 39, 51, 0.2);
+  }
+  .fw__thumb {
+    aspect-ratio: 16/9;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--c-bg);
+  }
+  .fw__thumb :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .fw__meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 6px 6px;
+  }
+  .fw__cat {
+    font-size: var(--fs-xs);
+    padding: 3px 10px;
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+    color: var(--c-ink-2);
+    white-space: nowrap;
+  }
+  .fw__title {
+    font-weight: 700;
+    font-size: var(--fs-base);
+  }
+  /* 両端の矢印 */
+  .fw__arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    width: 52px;
+    height: 52px;
+    margin-top: -26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--c-line);
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--c-ink);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: background-color 0.25s, border-color 0.25s, color 0.25s;
+  }
+  .fw__arrow--prev { left: max(12px, calc((100vw - var(--container)) / 2 - 26px)); }
+  .fw__arrow--next { right: max(12px, calc((100vw - var(--container)) / 2 - 26px)); }
+  .fw__arrow:hover {
+    border-color: var(--c-brand);
+    color: var(--c-brand);
+    background: #fff;
+  }
+  .fw__arrow svg {
+    width: 20px;
+    height: 20px;
+  }
+  @media (max-width: 700px) {
+    .fw__head { flex-direction: column; align-items: flex-start; }
+    .fw__arrow { width: 40px; height: 40px; margin-top: -20px; }
+  }
+</style>
+
+<script>
+  // ゆっくり右→左へ流れ続ける（ホバー／ドラッグ中は停止、矢印で1枚分移動）。
+  // カードを2周分並べて継ぎ目なくループ。prefers-reduced-motion では自動移動なし。
+  const vp = document.querySelector<HTMLElement>('[data-fw]');
+  const track = vp?.querySelector<HTMLElement>('[data-fw-track]');
+  if (vp && track) {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const SPEED = 28; // px/秒
+    let x = 0, half = 0, paused = false, dragging = false, last = performance.now();
+    const measure = () => { half = track.scrollWidth / 2; };
+    measure();
+    window.addEventListener('resize', measure);
+    const wrap = () => { if (x <= -half) x += half; if (x > 0) x -= half; };
+    const apply = () => { track.style.transform = `translate3d(${x}px,0,0)`; };
+    const tick = (now: number) => {
+      const dt = Math.min(0.05, (now - last) / 1000); last = now;
+      if (!paused && !dragging && !reduce) { x -= SPEED * dt; wrap(); apply(); }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    vp.addEventListener('pointerenter', () => (paused = true));
+    vp.addEventListener('pointerleave', () => (paused = false));
+    vp.addEventListener('focusin', () => (paused = true));
+    vp.addEventListener('focusout', () => (paused = false));
+
+    const step = () => (track.querySelector<HTMLElement>('.fw__card')?.offsetWidth || 400) + 20;
+    let anim: Animation | null = null;
+    const nudge = (dir: 1 | -1) => {
+      const from = x; x -= dir * step(); wrap();
+      const to = x;
+      // 連続的に動かす（wrap で飛んだ場合は即時反映）
+      if (Math.abs(to - from) > step() * 1.5) { apply(); return; }
+      anim?.cancel();
+      const start = performance.now(), D = 450;
+      const run = (t: number) => { const k = Math.min(1, (t - start) / D); const e = 1 - Math.pow(1 - k, 3); x = from + (to - from) * e; apply(); if (k < 1) requestAnimationFrame(run); };
+      requestAnimationFrame(run);
+    };
+    vp.querySelector('[data-fw-prev]')?.addEventListener('click', () => nudge(-1));
+    vp.querySelector('[data-fw-next]')?.addEventListener('click', () => nudge(1));
+
+    // ドラッグ
+    let sx = 0, sxv = 0, moved = false;
+    track.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse' && e.pointerType !== 'touch') return; dragging = true; moved = false; sx = e.clientX; sxv = x; track.classList.add('is-dragging'); });
+    window.addEventListener('pointermove', (e) => { if (!dragging) return; const dx = e.clientX - sx; if (Math.abs(dx) > 4) moved = true; x = sxv + dx; wrap(); apply(); });
+    window.addEventListener('pointerup', () => { dragging = false; track.classList.remove('is-dragging'); });
+    track.addEventListener('click', (e) => { if (moved) e.preventDefault(); }, true);
+  }
+</script>

@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import FaqList from '../components/FaqList.astro';
+import CTASection from '../components/CTASection.astro';
+import { faqs } from '../data/site';
+
+const title = 'よくある質問';
+const description =
+  'のあのはこ（就労継続支援B型・相模原市南区）へのよくある質問。作業内容、カフェとクリエイティブの工賃の違い、通所時間と休憩、工賃、未経験での相談、見学・体験、利用開始までの手続きについてお答えします。';
+const crumbs = [{ name: 'よくある質問', path: '/faq/' }];
+
+const faqLd = {
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<Base title={title} description={description} path="/faq/" breadcrumbs={crumbs} jsonLd={faqLd}>
+  <PageHero
+    en="FAQ"
+    title="よくある質問"
+    lead="ご相談の前に、よくいただくご質問をまとめました。ここにないことも、お気軽にお問い合わせください。"
+    breadcrumbs={crumbs}
+  />
+  <section class="section">
+    <div class="container container--narrow">
+      <FaqList items={faqs} openFirst />
+    </div>
+  </section>
+  <CTASection title="ほかにも気になることがあれば。" text="どんな小さなことでも構いません。見学・体験のご相談とあわせてお聞かせください。" />
+</Base>

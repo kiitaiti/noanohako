@@ -1,0 +1,29 @@
+---
+/**
+ * のあのはこ ロゴ（運営者提供の公式ロゴ画像）。
+ * variant="white" でフッターなど暗い背景用の白版を使用。
+ */
+import { Image } from 'astro:assets';
+import logoBlue from '../assets/photos/logo-noanohako.png';
+import logoWhite from '../assets/photos/logo-noanohako-white.png';
+
+interface Props {
+  class?: string;
+  variant?: 'blue' | 'white';
+  width?: number; // 表示幅(px)。srcset 生成の基準
+  alt?: string;
+}
+const { class: cls, variant = 'blue', width = 40, alt = '' } = Astro.props;
+const src = variant === 'white' ? logoWhite : logoBlue;
+---
+
+<Image
+  src={src}
+  alt={alt}
+  width={width * 2}
+  densities={[1, 2]}
+  class={cls}
+  loading="eager"
+  decoding="async"
+  style={`width:${width}px;height:auto`}
+/>

@@ -1,0 +1,264 @@
+---
+import { site, nav } from '../data/site';
+import Logo from './Logo.astro';
+const current = Astro.url.pathname;
+---
+
+<header class="header" id="site-header">
+  <div class="header__inner container">
+    <a href="/" class="header__brand" aria-label={`${site.fullName} ホーム`}>
+      <Logo width={38} />
+      <span class="header__brand-text">
+        <span class="header__brand-name">のあのはこ</span>
+        <span class="header__brand-sub">就労継続支援B型事業所</span>
+      </span>
+    </a>
+
+    <nav class="header__nav" aria-label="メインナビゲーション" id="global-nav">
+      <ul>
+        {
+          nav.map((n) => (
+            <li>
+              <a href={n.href} aria-current={current.startsWith(n.href) ? 'page' : undefined}>
+                {n.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="header__nav-cta">
+        <a href={site.telHref} class="header__tel" data-location="header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" stroke-linejoin="round"/></svg>
+          <span>{site.tel}</span>
+        </a>
+        <a href="/contact/" class="btn btn--primary btn--sm" data-cta="header_contact">見学・体験を相談する</a>
+      </div>
+    </nav>
+
+    <a href="/contact/" class="header__cta-sp btn btn--primary btn--sm" data-cta="header_contact_sp">相談する</a>
+    <button class="header__toggle" type="button" aria-expanded="false" aria-controls="global-nav" aria-label="メニューを開く">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--header-h);
+    background: rgba(247, 246, 242, 0.86);
+    backdrop-filter: saturate(140%) blur(10px);
+    -webkit-backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, background-color 0.3s;
+  }
+  .header.is-scrolled {
+    border-bottom-color: var(--c-line-soft);
+    background: rgba(247, 246, 242, 0.94);
+  }
+  .header__inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .header__brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--c-ink);
+    margin-right: auto;
+  }
+  .header__brand :global(img) {
+    width: 38px;
+    height: auto;
+    flex: none;
+  }
+  .header__brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+  .header__brand-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+  }
+  .header__brand-sub {
+    font-size: 0.68rem;
+    color: var(--c-ink-3);
+    letter-spacing: 0.06em;
+  }
+  .header__nav ul {
+    display: flex;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .header__nav li a {
+    display: inline-block;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: var(--c-ink-2);
+    font-size: 0.92rem;
+    font-weight: 500;
+    border-radius: 6px;
+    position: relative;
+  }
+  .header__nav li a::after {
+    content: '';
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 4px;
+    height: 2px;
+    background: var(--c-brand);
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s var(--ease);
+  }
+  .header__nav li a:hover,
+  .header__nav li a[aria-current='page'] {
+    color: var(--c-ink);
+  }
+  .header__nav li a:hover::after,
+  .header__nav li a[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .header__nav-cta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .header__tel {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--c-ink);
+    font-family: var(--f-en);
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .header__tel svg {
+    width: 16px;
+    height: 16px;
+    color: var(--c-brand);
+  }
+  .header__cta-sp,
+  .header__toggle {
+    display: none;
+  }
+
+  @media (max-width: 1080px) {
+    .header__nav {
+      position: fixed;
+      inset: var(--header-h) 0 auto 0;
+      max-height: calc(100dvh - var(--header-h));
+      overflow: auto;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      background: var(--c-bg);
+      border-bottom: 1px solid var(--c-line);
+      padding: 12px var(--gutter) 28px;
+      transform: translateY(-8px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s, transform 0.3s var(--ease), visibility 0s 0.3s;
+    }
+    .header__nav.is-open {
+      opacity: 1;
+      transform: none;
+      visibility: visible;
+      transition: opacity 0.25s, transform 0.3s var(--ease), visibility 0s;
+    }
+    .header__nav ul {
+      flex-direction: column;
+      gap: 0;
+    }
+    .header__nav li a {
+      display: block;
+      padding: 14px 4px;
+      font-size: 1.05rem;
+      border-bottom: 1px solid var(--c-line-soft);
+      border-radius: 0;
+    }
+    .header__nav li a::after {
+      display: none;
+    }
+    .header__nav-cta {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .header__tel {
+      justify-content: center;
+      font-size: 1.2rem;
+      padding: 8px;
+    }
+    .header__cta-sp {
+      display: inline-flex;
+      min-height: 40px;
+      padding-inline: 14px;
+    }
+    .header__toggle {
+      display: grid;
+      place-content: center;
+      gap: 6px;
+      width: 44px;
+      height: 44px;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      border-radius: 8px;
+    }
+    .header__toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--c-ink);
+      border-radius: 2px;
+      transition: transform 0.3s var(--ease);
+    }
+    .header__toggle[aria-expanded='true'] span:first-child {
+      transform: translateY(4px) rotate(45deg);
+    }
+    .header__toggle[aria-expanded='true'] span:last-child {
+      transform: translateY(-4px) rotate(-45deg);
+    }
+  }
+  @media (max-width: 400px) {
+    .header__brand-sub {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header')!;
+  const toggle = header.querySelector<HTMLButtonElement>('.header__toggle')!;
+  const nav = header.querySelector<HTMLElement>('.header__nav')!;
+  const setOpen = (open: boolean) => {
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+    nav.classList.toggle('is-open', open);
+  };
+  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
+  nav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

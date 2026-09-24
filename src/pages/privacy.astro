@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+const crumbs = [{ name: 'プライバシーポリシー', path: '/privacy/' }];
+---
+
+<Base title="プライバシーポリシー" description="のあのはこ（株式会社日成ディスカバリー）の個人情報の取り扱いについて。お問い合わせフォームでお預かりした情報の利用目的、第三者提供、アクセス解析についてご説明します。" path="/privacy/" breadcrumbs={crumbs}>
+  <PageHero en="Privacy Policy" title="プライバシーポリシー" breadcrumbs={crumbs} />
+  <section class="section">
+    <div class="container container--narrow policy">
+      <p>{site.legalName}（以下「当社」）は、{site.fullName}（以下「当事業所」）のウェブサイトにおいて、個人情報を以下のとおり取り扱います。</p>
+
+      <h2>1. 取得する情報</h2>
+      <p>お問い合わせフォームでは、お名前、ふりがな、お立場、メールアドレス、電話番号、ご希望、興味のある作業、ご相談内容をお預かりします。ふりがな・電話番号・興味のある作業・ご相談内容は任意です。初回のご相談で、障害者手帳の有無や診断名などの詳しい情報をお尋ねすることはありません。</p>
+
+      <h2>2. 利用目的</h2>
+      <p>お預かりした情報は、見学・体験・ご相談への対応、およびそれに関するご連絡のためにのみ利用します。</p>
+
+      <h2>3. 第三者提供</h2>
+      <p>法令にもとづく場合を除き、ご本人の同意なく第三者に提供することはありません。</p>
+
+      <h2>4. フォームの送信先</h2>
+      <p>お問い合わせフォームの送信内容は、当サイトのホスティングサービス（Netlify）のフォーム機能を通じて当事業所に届きます。</p>
+
+      <h2>5. アクセス解析</h2>
+      <p>当サイトでは、サイトの利用状況を把握し改善するために、アクセス解析ツール（Google アナリティクス）を利用する場合があります。このツールはCookieなどを用いて利用状況を収集しますが、個人を特定する情報や、フォームに入力された相談内容を収集することはありません。収集される情報の詳細は、<a href="https://policies.google.com/technologies/partner-sites?hl=ja" target="_blank" rel="noopener">Googleのポリシー</a>をご確認ください。</p>
+
+      <h2>6. 開示・訂正・削除</h2>
+      <p>お預かりした個人情報の開示・訂正・削除をご希望の場合は、下記までご連絡ください。ご本人確認のうえ、対応します。</p>
+
+      <h2>7. お問い合わせ窓口</h2>
+      <p>{site.fullName}<br />{site.address.full}<br />電話：<a href={site.telHref}>{site.tel}</a>（受付 {site.receptionHours}）<br />メール：<a href={`mailto:${site.email}`}>{site.email}</a></p>
+
+      <p class="note">本ポリシーの内容は、必要に応じて改定することがあります。</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .policy h2 {
+    font-size: var(--fs-h3);
+    margin: 2em 0 0.6em;
+  }
+  .policy p {
+    color: var(--c-ink-2);
+  }
+</style>

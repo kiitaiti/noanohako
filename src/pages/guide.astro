@@ -1,0 +1,199 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import KeyFacts from '../components/KeyFacts.astro';
+import Steps from '../components/Steps.astro';
+import CTASection from '../components/CTASection.astro';
+import { site } from '../data/site';
+
+const title = '利用案内｜通所時間・工賃・利用までの流れ';
+const description =
+  'のあのはこ（就労継続支援B型・相模原市南区・町田駅 徒歩6分）の利用案内。通所時間10:00〜15:00、休憩12:00〜13:00、工賃 時給500円。1日の流れ、対象となる方、見学・体験から契約・通所開始までの流れをまとめています。';
+const crumbs = [{ name: '利用案内', path: '/guide/' }];
+---
+
+<Base title={title} description={description} path="/guide/" breadcrumbs={crumbs}>
+  <PageHero
+    en="Guide"
+    title="利用案内"
+    lead="通所時間・工賃などの利用条件と、1日の流れ、利用開始までの手順をご案内します。"
+    breadcrumbs={crumbs}
+  />
+
+  <!-- 利用条件 -->
+  <section class="section terms" id="terms" aria-labelledby="terms-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Terms</p>
+        <h2 id="terms-title" class="h2">通所時間・工賃</h2>
+        <p class="lead">通所時間・休憩・工賃は、作業の方向性（カフェ中心／クリエイティブ中心）にかかわらず共通です。</p>
+      </div>
+      <KeyFacts />
+      <div class="terms__table" data-reveal>
+        <table class="table">
+          <caption class="visually-hidden">利用条件の一覧</caption>
+          <tbody>
+            <tr><th>サービス種別</th><td>就労継続支援B型（障害福祉サービス）</td></tr>
+            <tr><th>通所時間</th><td>{site.hours.label}</td></tr>
+            <tr><th>休憩</th><td>{site.hours.breakLabel}（1時間）</td></tr>
+            <tr><th>工賃</th><td><strong>{site.wage.label}／{site.wage.monthlyMax}</strong>（{site.wage.monthlyNote}。通所日数・時間に応じて変わります）</td></tr>
+            <tr><th>作業内容</th><td>カフェ中心／クリエイティブ中心から選択。そのほかデータ入力・清掃・内職など（<a href="/service/">作業内容</a>）</td></tr>
+            <tr><th>昼食</th><td>提供はありません。休憩時間にご自身でご用意ください</td></tr>
+            <tr><th>見学・体験</th><td>随時受付。費用は無料</td></tr>
+            <tr><th>所在地</th><td>{site.address.full}（{site.nearestStation} {site.walk}）</td></tr>
+          </tbody>
+        </table>
+        <p class="note">工賃の支払い方法・時期、通所頻度や短時間利用、交通費、送迎、欠席時の対応など、上記にない事項は見学・相談の際に個別にご案内します。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 対象となる方 -->
+  <section class="section section--white target" id="target" aria-labelledby="target-title">
+    <div class="container container--narrow">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">For Whom</p>
+        <h2 id="target-title" class="h2">対象となる方</h2>
+      </div>
+      <div data-reveal>
+        <p>就労継続支援B型は、障害者総合支援法にもとづく障害福祉サービスのひとつです。一般企業などで働くことが難しい障がいのある方が、雇用契約を結ばずに、生産活動などの就労の機会や、知識・能力の向上のための訓練を受けられるサービスです。作業に応じて工賃が支払われます。</p>
+        <p>利用には、お住まいの市区町村が発行する「障害福祉サービス受給者証」が必要です。対象や手続きの詳細は自治体によって異なりますので、市区町村の障害福祉の窓口や、相談支援事業所にご確認ください。のあのはこへのご相談の際も、状況に合わせてご案内します。</p>
+        <ul class="target__list">
+          <li>体調や障がいのことで、いきなり働くことに不安がある方</li>
+          <li>カフェの仕事や、動画編集・制作などのクリエイティブな仕事に興味がある方</li>
+          <li>自分のペースで、できることから経験を積みたい方</li>
+        </ul>
+        <p class="note">制度の説明は厚生労働省の公開情報をもとにしています（<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/hukushi_kaigo/shougaishahukushi/service/shurou.html" target="_blank" rel="noopener">厚生労働省「障害者の就労支援対策の状況」</a>）。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1日の流れ -->
+  <section class="section day" id="day" aria-labelledby="day-title">
+    <div class="container container--narrow">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Daily</p>
+        <h2 id="day-title" class="h2">1日の流れ</h2>
+        <p class="lead">通所時間は{site.hours.label}。{site.hours.breakLabel}は昼休憩です。</p>
+      </div>
+      <ol class="timeline">
+        <li data-reveal><time datetime="10:00">10:00</time><div><h3>通所・午前の活動</h3><p>体調の確認をして、その日の作業を始めます。</p></div></li>
+        <li data-reveal><time datetime="12:00">12:00</time><div><h3>昼休憩（12:00〜13:00）</h3><p>1時間の休憩です。昼食は各自でご用意ください。</p></div></li>
+        <li data-reveal><time datetime="13:00">13:00</time><div><h3>午後の活動</h3><p>午前の続きや別の作業に取り組みます。分からないことはスタッフに相談しながら進めます。</p></div></li>
+        <li data-reveal><time datetime="15:00">15:00</time><div><h3>活動終了・帰宅</h3><p>片付けと振り返りをして、1日の活動を終えます。</p></div></li>
+      </ol>
+      <p class="note">作業の内容や進め方は、その日の体調や取り組みに合わせて調整します。</p>
+    </div>
+  </section>
+
+  <!-- 利用までの流れ -->
+  <section class="section section--white flow" id="flow" aria-labelledby="flow-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Flow</p>
+        <h2 id="flow-title" class="h2">利用開始までの流れ</h2>
+      </div>
+      <Steps />
+    </div>
+  </section>
+
+  <CTASection />
+</Base>
+
+<style>
+  .terms__table {
+    margin-top: 28px;
+  }
+  .terms__table .table {
+    margin-bottom: 14px;
+  }
+  .target p {
+    color: var(--c-ink-2);
+  }
+  .target__list {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0;
+    display: grid;
+    gap: 10px;
+  }
+  .target__list li {
+    padding: 14px 18px 14px 40px;
+    background: var(--c-bg);
+    border-radius: var(--radius);
+    position: relative;
+  }
+  .target__list li::before {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 24px;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--c-accent);
+  }
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 86px;
+    top: 12px;
+    bottom: 12px;
+    width: 2px;
+    background: var(--c-line);
+  }
+  .timeline li {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 28px;
+    padding: 18px 0;
+    position: relative;
+  }
+  .timeline li::before {
+    content: '';
+    position: absolute;
+    left: 81px;
+    top: 28px;
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    background: var(--c-brand);
+    border: 2px solid var(--c-bg);
+  }
+  .timeline time {
+    font-family: var(--f-en);
+    font-weight: 800;
+    font-size: 1.3rem;
+    padding-top: 2px;
+  }
+  .timeline h3 {
+    font-size: var(--fs-lg);
+    margin-bottom: 4px;
+  }
+  .timeline p {
+    margin: 0;
+    color: var(--c-ink-2);
+    font-size: var(--fs-sm);
+  }
+  @media (max-width: 480px) {
+    .timeline::before {
+      left: 64px;
+    }
+    .timeline li {
+      grid-template-columns: 52px 1fr;
+      gap: 24px;
+    }
+    .timeline li::before {
+      left: 59px;
+    }
+    .timeline time {
+      font-size: 1.05rem;
+    }
+  }
+</style>

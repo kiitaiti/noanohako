@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site } from '../../data/site';
+---
+
+<Base title="送信が完了しました" description="お問い合わせありがとうございます。内容を確認のうえ、順次ご連絡します。" path="/contact/thanks/" noindex>
+  <section class="section thanks">
+    <div class="container container--narrow">
+      <p class="eyebrow">Thank you</p>
+      <h1 class="h2">送信が完了しました。</h1>
+      <p class="lead">お問い合わせありがとうございます。内容を確認のうえ、順次ご連絡します。</p>
+      <p>数日たっても連絡がない場合は、お手数ですがお電話（<a href={site.telHref} data-location="thanks">{site.tel}</a>／受付 {site.receptionHours}）でお知らせください。</p>
+      <div class="thanks__actions">
+        <a href="/" class="btn btn--ghost">トップページへ戻る</a>
+        <a href="/guide/" class="text-link">利用案内を見る
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .thanks {
+    min-height: 60vh;
+  }
+  .thanks .h2 {
+    margin-bottom: 16px;
+  }
+  .thanks__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    margin-top: 32px;
+  }
+</style>
+
+<script>
+  // 送信完了の計測（ボタンのクリックとは区別）。個人情報は送らない。
+  const dl = ((window as any).dataLayer ||= []);
+  dl.push({ event: 'contact_complete', form: 'contact' });
+  const g = (window as any).gtag;
+  if (typeof g === 'function') g('event', 'contact_complete', { form: 'contact' });
+</script>

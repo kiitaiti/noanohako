@@ -1,0 +1,137 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CTASection from '../components/CTASection.astro';
+import { site } from '../data/site';
+
+const title = 'アクセス・施設概要・運営法人';
+const description =
+  'のあのはこ（就労継続支援B型）のアクセスと施設概要。所在地は神奈川県相模原市南区上鶴間本町3-6-16、町田駅から徒歩6分。電話 042-705-4422。運営は株式会社日成ディスカバリー。';
+const crumbs = [{ name: 'アクセス・施設概要', path: '/access/' }];
+const mapQuery = encodeURIComponent('神奈川県相模原市南区上鶴間本町3-6-16');
+---
+
+<Base title={title} description={description} path="/access/" breadcrumbs={crumbs}>
+  <PageHero en="Access" title="アクセス・施設概要" lead={`${site.address.full}。${site.nearestStation}から${site.walk}です。`} breadcrumbs={crumbs} />
+
+  <section class="section access" aria-labelledby="map-title">
+    <div class="container access__grid">
+      <div class="access__map" data-reveal>
+        <h2 id="map-title" class="visually-hidden">地図</h2>
+        <iframe
+          title="のあのはこ 周辺地図（Googleマップ）"
+          src={`https://www.google.com/maps?q=${mapQuery}&output=embed&z=16`}
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+        ></iframe>
+        <a class="text-link" href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`} target="_blank" rel="noopener">Googleマップで開く
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <div data-reveal style="--reveal-delay:.08s">
+        <p class="eyebrow">Route</p>
+        <h2 class="h2">行き方</h2>
+        <dl class="route">
+          <div>
+            <dt>電車でお越しの場合</dt>
+            <dd>{site.nearestStation}（JR横浜線・小田急線）から{site.walk}。所在地は神奈川県相模原市南区ですが、町田駅からお越しいただけます。</dd>
+          </div>
+          <div>
+            <dt>初めてお越しの方へ</dt>
+            <dd>建物の入口が分かりにくい場合は、お電話（<a href={site.telHref} data-location="access">{site.tel}</a>）でご案内します。見学の際は、あらかじめ日時をご相談ください。</dd>
+          </div>
+        </dl>
+        <p class="note">駐車場・駐輪場の有無、詳しい道順は、お問い合わせの際にご確認ください。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white" id="overview" aria-labelledby="overview-title">
+    <div class="container container--narrow">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Overview</p>
+        <h2 id="overview-title" class="h2">施設概要</h2>
+      </div>
+      <table class="table" data-reveal>
+        <caption class="visually-hidden">施設概要</caption>
+        <tbody>
+          <tr><th>施設名</th><td>{site.fullName}</td></tr>
+          <tr><th>サービス種別</th><td>就労継続支援B型（障害福祉サービス）</td></tr>
+          <tr><th>所在地</th><td>{site.address.full}</td></tr>
+          <tr><th>最寄り駅</th><td>{site.nearestStation} {site.walk}</td></tr>
+          <tr><th>電話</th><td><a href={site.telHref} data-location="access_table">{site.tel}</a>（受付 {site.receptionHours}）</td></tr>
+          <tr><th>メール</th><td><a href={`mailto:${site.email}`}>{site.email}</a></td></tr>
+          <tr><th>通所時間</th><td>{site.hours.label}（休憩 {site.hours.breakLabel}）</td></tr>
+          <tr><th>工賃</th><td>{site.wage.label}</td></tr>
+          <tr><th>作業内容</th><td>カフェ中心／クリエイティブ中心（動画編集・SNS更新・3DCG・AI活用）、データ入力・清掃・内職など</td></tr>
+          <tr><th>連携施設</th><td><a href={site.partner.url} target="_blank" rel="noopener">{site.partner.name}</a>（同一運営法人）</td></tr>
+        </tbody>
+      </table>
+      <p class="note">電話受付時間と通所時間は異なります。定員・指定年月日などの詳細はお問い合わせください。</p>
+    </div>
+  </section>
+
+  <section class="section" id="company" aria-labelledby="company-title">
+    <div class="container container--narrow">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Company</p>
+        <h2 id="company-title" class="h2">運営法人</h2>
+      </div>
+      <table class="table" data-reveal>
+        <caption class="visually-hidden">運営法人の概要</caption>
+        <tbody>
+          <tr><th>法人名</th><td>{site.legalName}</td></tr>
+          <tr><th>本社所在地</th><td>{site.legalAddress}</td></tr>
+          <tr><th>運営施設</th><td>{site.fullName}／{site.partner.name}</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <CTASection />
+</Base>
+
+<style>
+  .access__grid {
+    display: grid;
+    gap: 32px;
+  }
+  @media (min-width: 900px) {
+    .access__grid {
+      grid-template-columns: 7fr 5fr;
+      gap: 56px;
+    }
+  }
+  .access__map iframe {
+    width: 100%;
+    height: 380px;
+    border: 0;
+    border-radius: var(--radius-lg);
+    display: block;
+    margin-bottom: 12px;
+    background: var(--c-bg-soft);
+  }
+  .route {
+    margin: 20px 0;
+    display: grid;
+    gap: 14px;
+  }
+  .route div {
+    padding: 18px 20px;
+    background: var(--c-surface);
+    border-radius: var(--radius);
+  }
+  .route dt {
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .route dd {
+    margin: 0;
+    font-size: var(--fs-sm);
+    color: var(--c-ink-2);
+  }
+  .h2 {
+    margin-bottom: 8px;
+  }
+</style>

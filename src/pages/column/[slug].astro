@@ -1,0 +1,130 @@
+---
+import Base from '../../layouts/Base.astro';
+import CTASection from '../../components/CTASection.astro';
+import { getNews, formatDate, toISODate, type NewsItem } from '../../lib/cms';
+import { site } from '../../data/site';
+
+export async function getStaticPaths() {
+  const news = await getNews();
+  return news.map((n) => ({ params: { slug: n.slug }, props: { item: n } }));
+}
+const { item } = Astro.props as { item: NewsItem };
+const path = `/column/${item.slug}/`;
+const crumbs = [
+  { name: 'コラム', path: '/column/' },
+  { name: item.title, path },
+];
+const description = item.summary || item.body.replace(/<[^>]+>/g, '').slice(0, 110);
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? site.url;
+const articleLd = {
+  '@type': 'NewsArticle',
+  headline: item.title,
+  datePublished: item.publishedAt,
+  dateModified: item.updatedAt || item.publishedAt,
+  mainEntityOfPage: `${siteUrl}${path}`,
+  author: { '@id': `${siteUrl}/#organization` },
+  publisher: { '@id': `${siteUrl}/#organization` },
+  ...(item.thumbnail ? { image: item.thumbnail.url } : {}),
+  articleSection: item.category,
+  inLanguage: 'ja',
+};
+---
+
+<Base
+  title={item.title}
+  description={description}
+  path={path}
+  ogType="article"
+  ogImage={item.thumbnail?.url}
+  breadcrumbs={crumbs}
+  jsonLd={articleLd}
+  publishedTime={item.publishedAt}
+  modifiedTime={item.updatedAt}
+>
+  <article class="article">
+    <header class="article__head">
+      <div class="container container--narrow">
+        <nav class="breadcrumb" aria-label="パンくずリスト">
+          <ol>
+            <li><a href="/">ホーム</a></li>
+            <li><a href="/column/">コラム</a></li>
+            <li><span aria-current="page">{item.title}</span></li>
+          </ol>
+        </nav>
+        <div class="article__meta">
+          <time datetime={toISODate(item.publishedAt)}>{formatDate(item.publishedAt)}</time>
+          <span class="article__cat">{item.category}</span>
+        </div>
+        <h1 class="article__title">{item.title}</h1>
+      </div>
+    </header>
+    <div class="container container--narrow">
+      {item.thumbnail && (
+        <img class="article__thumb" src={item.thumbnail.url + '?w=1600&fm=webp&q=80'} alt="" width={item.thumbnail.width} height={item.thumbnail.height} loading="eager" />
+      )}
+      <div class="prose" set:html={item.body} />
+      {item.externalUrl && (
+        <p class="article__ext"><a href={item.externalUrl} target="_blank" rel="noopener" class="btn btn--ghost btn--sm">関連リンクを開く</a></p>
+      )}
+      <p class="article__back"><a href="/column/" class="text-link">← コラム一覧へ戻る</a></p>
+    </div>
+  </article>
+  <CTASection />
+</Base>
+
+<style>
+  .article__head {
+    padding-block: clamp(32px, 5vw, 64px) clamp(28px, 4vw, 48px);
+    border-bottom: 1px solid var(--c-line-soft);
+    margin-bottom: clamp(32px, 5vw, 56px);
+  }
+  .breadcrumb ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    font-size: var(--fs-xs);
+    color: var(--c-ink-3);
+  }
+  .breadcrumb li + li::before {
+    content: '/';
+    margin-right: 8px;
+    color: var(--c-line);
+  }
+  .breadcrumb a {
+    color: var(--c-ink-3);
+    text-decoration: none;
+  }
+  .article__meta {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .article__meta time {
+    font-family: var(--f-en);
+    font-weight: 700;
+    color: var(--c-ink-3);
+  }
+  .article__cat {
+    font-size: var(--fs-xs);
+    padding: 3px 10px;
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+  }
+  .article__title {
+    font-size: var(--fs-h2);
+  }
+  .article__thumb {
+    border-radius: var(--radius-lg);
+    margin-bottom: 32px;
+  }
+  .article__ext {
+    margin-top: 32px;
+  }
+  .article__back {
+    margin: 48px 0 var(--section);
+  }
+</style>

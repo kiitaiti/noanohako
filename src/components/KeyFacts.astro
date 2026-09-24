@@ -1,0 +1,109 @@
+---
+/** 通所時間・休憩・工賃・作業の選び方（確定情報） */
+import { site } from '../data/site';
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+const facts = [
+  { k: '通所時間', v: site.hours.label, sub: '午前・午後の活動' },
+  { k: '休憩', v: site.hours.breakLabel, sub: '1時間の昼休憩' },
+  { k: '工賃', v: site.wage.label, sub: site.wage.monthlyMax, strong: true },
+  { k: '作業の選び方', v: 'カフェ中心／クリエイティブ中心', sub: '興味や得意に合わせて選択', wide: true },
+];
+---
+
+<dl class:list={['facts', { 'facts--compact': compact }]}>
+  {
+    facts.map((f, i) => (
+      <div class:list={['facts__item', { 'facts__item--wide': f.wide }]} data-reveal style={`--reveal-delay:${i * 0.07}s`}>
+        <dt>{f.k}</dt>
+        <dd>
+          <strong>{f.v}</strong>
+          <span class:list={{ 'facts__sub--strong': f.strong }}>{f.sub}</span>
+        </dd>
+      </div>
+    ))
+  }
+</dl>
+
+<style>
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 0;
+  }
+  @media (min-width: 900px) {
+    .facts {
+      grid-template-columns: repeat(5, 1fr);
+    }
+    .facts__item--wide {
+      grid-column: span 2;
+    }
+  }
+  @media (max-width: 899px) {
+    .facts__item--wide,
+    .facts__item:nth-child(3) {
+      grid-column: span 2;
+    }
+  }
+  .facts__item {
+    background: var(--c-surface);
+    border: 1px solid var(--c-line-soft);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .facts__item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    bottom: 14px;
+    width: 3px;
+    background: var(--c-brand);
+    border-radius: 0 3px 3px 0;
+  }
+  .facts__item--wide::before {
+    background: var(--c-accent);
+  }
+  dt {
+    font-size: var(--fs-xs);
+    color: var(--c-ink-3);
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  dd {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  dd strong {
+    font-family: var(--f-en);
+    font-size: clamp(1.15rem, 1rem + 0.6vw, 1.5rem);
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    color: var(--c-ink);
+    line-height: 1.2;
+  }
+  .facts__item--wide dd strong {
+    font-family: var(--f-jp);
+    font-weight: 700;
+    font-size: clamp(1rem, 0.95rem + 0.4vw, 1.25rem);
+  }
+  dd span {
+    font-size: var(--fs-xs);
+    color: var(--c-ink-2);
+    margin-top: 4px;
+  }
+  dd .facts__sub--strong {
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    color: var(--c-brand-deep);
+  }
+  .facts--compact .facts__item {
+    padding: 14px 16px;
+  }
+</style>

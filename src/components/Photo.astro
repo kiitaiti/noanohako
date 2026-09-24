@@ -1,0 +1,53 @@
+---
+/**
+ * 配信用画像コンポーネント。
+ * AVIF/WebP 変換、srcset/sizes、width/height、遅延読み込み（eager 指定時は除外）を一括で設定。
+ */
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string; // 装飾画像は "" を渡す
+  sizes: string;
+  widths?: number[];
+  eager?: boolean;
+  class?: string;
+  pictureClass?: string;
+  aspect?: string; // 例 "4/3"
+  position?: string; // object-position
+}
+const {
+  src,
+  alt,
+  sizes,
+  widths = [480, 768, 1024, 1440, 1920],
+  eager = false,
+  class: cls,
+  pictureClass,
+  aspect,
+  position,
+} = Astro.props;
+// 元画像より大きいサイズは生成しない（600px の小さな写真などに対応）
+let w = widths.filter((x) => x <= src.width);
+if (w.length === 0) w = [src.width];
+const style = [aspect ? `aspect-ratio:${aspect}` : '', position ? `object-position:${position}` : '']
+  .filter(Boolean)
+  .join(';');
+---
+
+<Picture
+  src={src}
+  alt={alt}
+  widths={w}
+  sizes={sizes}
+  formats={['avif', 'webp']}
+  fallbackFormat="jpg"
+  quality={78}
+  loading={eager ? 'eager' : 'lazy'}
+  decoding={eager ? 'sync' : 'async'}
+  fetchpriority={eager ? 'high' : 'auto'}
+  class={cls}
+  pictureAttributes={{ class: pictureClass }}
+  style={style || undefined}
+/>

@@ -1,0 +1,87 @@
+---
+/**
+ * 成長を支える3つの要素（社会性・仕事の流れ・スキル）の図。
+ * 3つの角丸「はこ」が中心（あなたのペース）を囲み、線でつながる。本文はHTMLで読める形にしている。
+ */
+---
+
+<div class="growth">
+  <svg class="growth__svg" viewBox="0 0 440 400" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="g-soft" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#e6edf9" />
+        <stop offset="1" stop-color="#f7f6f2" />
+      </linearGradient>
+    </defs>
+    <rect x="20" y="20" width="400" height="360" rx="40" fill="url(#g-soft)" />
+    <!-- 接続線 -->
+    <g stroke="#2a56a8" stroke-width="1.5" stroke-dasharray="4 5" opacity="0.6">
+      <line x1="140" y1="118" x2="220" y2="200" />
+      <line x1="300" y1="118" x2="220" y2="200" />
+      <line x1="220" y1="300" x2="220" y2="200" />
+    </g>
+    <!-- 3つのはこ -->
+    <g class="growth__box growth__box--1">
+      <rect x="50" y="56" width="150" height="104" rx="22" fill="#ffffff" stroke="#2a56a8" stroke-width="2" />
+      <text x="125" y="104" text-anchor="middle" class="growth__label">社会性</text>
+      <text x="125" y="130" text-anchor="middle" class="growth__sub">Social</text>
+    </g>
+    <g class="growth__box growth__box--2">
+      <rect x="240" y="56" width="150" height="104" rx="22" fill="#ffffff" stroke="#2a56a8" stroke-width="2" />
+      <text x="315" y="104" text-anchor="middle" class="growth__label">仕事の流れ</text>
+      <text x="315" y="130" text-anchor="middle" class="growth__sub">Workflow</text>
+    </g>
+    <g class="growth__box growth__box--3">
+      <rect x="145" y="252" width="150" height="104" rx="22" fill="#ffffff" stroke="#2a56a8" stroke-width="2" />
+      <text x="220" y="300" text-anchor="middle" class="growth__label">スキル</text>
+      <text x="220" y="326" text-anchor="middle" class="growth__sub">Skill</text>
+    </g>
+    <!-- 中心 -->
+    <circle cx="220" cy="200" r="40" fill="#d6952e" />
+    <text x="220" y="196" text-anchor="middle" class="growth__center">あなたの</text>
+    <text x="220" y="214" text-anchor="middle" class="growth__center">ペースで</text>
+  </svg>
+</div>
+
+<style>
+  .growth {
+    width: 100%;
+    max-width: 460px;
+    margin-inline: auto;
+  }
+  .growth__svg {
+    width: 100%;
+    height: auto;
+    font-family: var(--f-jp);
+  }
+  .growth__label {
+    font-size: 19px;
+    font-weight: 700;
+    fill: var(--c-ink);
+  }
+  .growth__sub {
+    font-family: var(--f-en);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    fill: var(--c-brand);
+  }
+  .growth__center {
+    font-size: 13px;
+    font-weight: 700;
+    fill: #fff;
+  }
+  .growth__box {
+    transition: transform 0.4s var(--ease);
+  }
+  .growth:hover .growth__box--1 {
+    transform: translate(-4px, -4px);
+  }
+  .growth:hover .growth__box--2 {
+    transform: translate(4px, -4px);
+  }
+  .growth:hover .growth__box--3 {
+    transform: translate(0, 4px);
+  }
+</style>

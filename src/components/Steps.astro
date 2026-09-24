@@ -1,0 +1,105 @@
+---
+/** 利用開始までの流れ（全員が同じ手順とは限らない旨を併記） */
+const steps = [
+  {
+    n: '01',
+    t: 'お問い合わせ・ご相談',
+    d: 'フォームまたはお電話でご連絡ください。ご本人だけでなく、ご家族や相談支援員の方からのご相談も受け付けています。',
+  },
+  {
+    n: '02',
+    t: '見学・体験',
+    d: '実際の空間や作業の様子をご覧いただき、気になることをお聞かせください。見学・体験は無料です。',
+  },
+  {
+    n: '03',
+    t: '受給者証の申請など、必要な手続き',
+    d: 'お住まいの市区町村で障害福祉サービス受給者証の申請などを行います。すでにお持ちの場合など、状況に応じて手順は変わります。',
+  },
+  {
+    n: '04',
+    t: '契約・通所開始',
+    d: '利用契約を結び、通所を開始します。作業の方向性（カフェ中心／クリエイティブ中心）は、相談しながら決めていきます。',
+  },
+];
+---
+
+<ol class="steps">
+  {
+    steps.map((s, i) => (
+      <li class="steps__item" data-reveal style={`--reveal-delay:${i * 0.08}s`}>
+        <span class="steps__num" aria-hidden="true">{s.n}</span>
+        <div class="steps__body">
+          <h3 class="steps__title">{s.t}</h3>
+          <p>{s.d}</p>
+        </div>
+      </li>
+    ))
+  }
+</ol>
+<p class="note">手続きの内容や順序は、お住まいの自治体やご状況により異なります。見学・体験にかかる費用は無料です。</p>
+
+<style>
+  .steps {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+    display: grid;
+    gap: 0;
+    counter-reset: step;
+  }
+  .steps__item {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 20px;
+    padding: 26px 0;
+    border-top: 1px solid var(--c-line);
+    position: relative;
+  }
+  .steps__item:last-child {
+    border-bottom: 1px solid var(--c-line);
+  }
+  .steps__num {
+    font-family: var(--f-en);
+    font-weight: 800;
+    font-size: 1.7rem;
+    color: var(--c-brand);
+    line-height: 1;
+    padding-top: 4px;
+  }
+  .steps__title {
+    font-size: var(--fs-h3);
+    margin-bottom: 8px;
+  }
+  .steps__body p {
+    margin: 0;
+    color: var(--c-ink-2);
+  }
+  @media (min-width: 900px) {
+    .steps {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .steps__item {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 28px 0 0;
+      border-top: 2px solid var(--c-line);
+    }
+    .steps__item:last-child {
+      border-bottom: 0;
+    }
+    .steps__title {
+      min-height: 2.7em;
+    }
+    .steps__item::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: 0;
+      width: 48px;
+      height: 2px;
+      background: var(--c-brand);
+    }
+  }
+</style>

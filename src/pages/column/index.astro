@@ -1,0 +1,97 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import CTASection from '../../components/CTASection.astro';
+import { getNews, formatDate, toISODate } from '../../lib/cms';
+
+const news = await getNews();
+const crumbs = [{ name: 'コラム', path: '/column/' }];
+const description = 'のあのはこ（就労継続支援B型・相模原市南区）のコラム。事業所の考え方、日々の活動、就労継続支援B型に関する話題をお届けします。';
+---
+
+<Base title="コラム" description={description} path="/column/" breadcrumbs={crumbs}>
+  <PageHero en="Column" title="コラム" lead="事業所の考え方や日々の活動、就労継続支援B型に関する話題をお届けします。" breadcrumbs={crumbs} />
+  <section class="section">
+    <div class="container container--narrow">
+      {news.length === 0 && <p>お知らせは準備中です。</p>}
+      <ul class="list">
+        {
+          news.map((n, i) => (
+            <li class="list__item" data-reveal style={`--reveal-delay:${Math.min(i, 8) * 0.04}s`}>
+              <a href={`/column/${n.slug}/`}>
+                <div class="list__meta">
+                  <time datetime={toISODate(n.publishedAt)}>{formatDate(n.publishedAt)}</time>
+                  <span class="list__cat">{n.category}</span>
+                </div>
+                <h2 class="list__title">{n.title}</h2>
+                {n.summary && <p class="list__summary">{n.summary}</p>}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="works-link"><a href="/works/" class="text-link">制作実績を見る
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a></p>
+    </div>
+  </section>
+  <CTASection />
+</Base>
+
+<style>
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 12px;
+  }
+  .list__item a {
+    display: block;
+    padding: 24px 26px;
+    background: var(--c-surface);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--c-ink);
+    border: 1px solid var(--c-line-soft);
+    transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s var(--ease);
+  }
+  .list__item a:hover {
+    border-color: var(--c-brand-soft);
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+  }
+  .list__meta {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .list__meta time {
+    font-family: var(--f-en);
+    font-weight: 700;
+    color: var(--c-ink-3);
+    font-size: var(--fs-sm);
+  }
+  .list__cat {
+    font-size: var(--fs-xs);
+    padding: 3px 10px;
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+    color: var(--c-ink-2);
+  }
+  .list__title {
+    font-size: var(--fs-lg);
+  }
+  .list__item a:hover .list__title {
+    color: var(--c-brand);
+  }
+  .list__summary {
+    margin: 8px 0 0;
+    font-size: var(--fs-sm);
+    color: var(--c-ink-2);
+  }
+  .works-link {
+    margin-top: 32px;
+  }
+</style>

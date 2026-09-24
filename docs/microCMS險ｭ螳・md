@@ -1,0 +1,74 @@
+# microCMS 設定手順
+
+お知らせ・活動記録と制作実績を microCMS から更新できるようにするための API 設計です。
+`src/lib/cms.ts` はこのフィールド構成を前提にしています。
+
+## 1. サービス作成
+
+microCMS で新規サービスを作成（例: サービスID `noanohako` → `noanohako.microcms.io`）。
+
+## 2. API「column」（コラム）
+
+- API名: コラム
+- エンドポイント: `column`
+- 種類: リスト形式
+
+| フィールドID | 表示名 | 種類 | 必須 | 備考 |
+|---|---|---|---|---|
+| `title` | タイトル | テキストフィールド | ○ | |
+| `slug` | URLスラッグ | テキストフィールド | ○ | 半角英数とハイフン。URLは `/column/{slug}/`。未入力時はコンテンツIDを使用 |
+| `category` | カテゴリ | セレクトフィールド | ○ | 選択肢: `コラム` / `活動記録` / `お知らせ` / `メディア掲載`（複数選択オフ） |
+| `summary` | 概要 | テキストエリア | | 一覧・meta description に使用（110文字程度） |
+| `body` | 本文 | リッチエディタ | ○ | |
+| `thumbnail` | サムネイル | 画像 | | OGP・記事冒頭に使用（横長推奨 1200×630 以上） |
+| `externalUrl` | 関連リンク | テキストフィールド | | YouTube など外部リンクがある場合 |
+
+公開日は microCMS 標準の `publishedAt` を使用します（日付を変更したい場合は「公開日時」を編集）。
+
+## 3. API「works」（制作実績）
+
+- エンドポイント: `works`／リスト形式
+
+| フィールドID | 表示名 | 種類 | 必須 | 備考 |
+|---|---|---|---|---|
+| `title` | タイトル | テキストフィールド | ○ | |
+| `slug` | URLスラッグ | テキストフィールド | ○ | URLは `/works/{slug}/` |
+| `category` | 種類 | セレクトフィールド | ○ | 例: `ショート動画` / `サムネイル` / `3DCG` / `SNS` / `その他` |
+| `summary` | 概要 | テキストエリア | | |
+| `body` | 本文 | リッチエディタ | ○ | 動画埋め込みも可 |
+| `image` | メイン画像 | 画像 | | **16:9（1600×900以上）推奨**。一覧・詳細に表示 |
+
+## 4. 既存記事の移行（初回のみ）
+
+現行サイトの記事を以下のスラッグで登録すると、netlify.toml の 301 リダイレクトがそのまま有効になります。
+
+| 旧URL | 新URL | slug |
+|---|---|---|
+| `/42/` テレビ神奈川「News Link」紹介 | `/column/tvk-news-link/` | `tvk-news-link` |
+| `/9/` WEBサイト公開 | `/column/website-launch/` | `website-launch` |
+| `/works/vtuber動画切り抜き/` | `/works/vtuber-video/` | `vtuber-video` |
+
+**制作実績（works）に最初に登録するスラッグ**（トップの固定リストと対応）: `sns-influencer`（インフルエンサーSNS運営）／`game-commentary-1`・`game-commentary-2`（ゲーム実況者動画作成）／`news-youtube`（ニュース系YouTubeチャンネル運営）／`vtuber-video`（Vtuber動画作成）。microCMS で同じ slug を登録すると、トップのカードのリンク先がその記事になります。
+
+シードデータ（`src/data/seed-news.json` / `seed-works.json`）に同じ内容を入れてあります。microCMS 接続後はシードは使われません。
+
+## 5. API キーと環境変数
+
+- microCMS → API キー → GET 権限のキーを作成
+- Netlify の環境変数に `MICROCMS_SERVICE_DOMAIN`（例 `noanohako`）と `MICROCMS_API_KEY` を設定
+
+## 6. 自動再ビルド（Webhook）
+
+1. Netlify: Site settings → Build & deploy → Build hooks → 「microCMS」を追加し URL をコピー
+2. microCMS: 各API → API設定 → Webhook → 「Netlify」を追加し、上記URLを登録
+3. 記事を公開・更新・削除すると数分で反映されます
+
+## 7. 記事作成時の注意（旧情報を載せないために）
+
+- 「WORK PLAN／PLAY PLAN」「時給200円」「13:00〜18:00」「9:45通所」など旧区分・旧時間は使わない
+- 通所時間 10:00〜15:00／休憩 12:00〜13:00／工賃 時給500円 を表記する場合は `src/data/site.ts` と一致させる
+- 写真に写っている方を「利用者」「スタッフ」と説明する場合は、本人の同意を得たもののみ掲載する
+
+## 8. トップの実績ストリップについて
+
+ヒーロー直下に並ぶ5件の実績は **microCMS の内容に関係なく固定** です。`src/data/featured-works.ts`（タイトル・カテゴリ・slug）と `src/assets/works/`（16:9 サムネイル）を編集して再デプロイすると差し替わります。microCMS で実績を追加・編集しても、このストリップは変わりません（/works/ 一覧と各詳細ページには反映されます）。

@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import { nav } from '../data/site';
+---
+
+<Base title="ページが見つかりません" description="お探しのページは見つかりませんでした。" path="/404/" noindex>
+  <section class="section nf">
+    <div class="container container--narrow">
+      <p class="eyebrow">404 Not Found</p>
+      <h1 class="h2">ページが見つかりません。</h1>
+      <p class="lead">お探しのページは、移動または削除された可能性があります。サイトのリニューアルにともない、一部のURLが変更されています。</p>
+      <ul class="nf__links">
+        <li><a href="/">トップページ</a></li>
+        {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+        <li><a href="/contact/">お問い合わせ</a></li>
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    min-height: 60vh;
+  }
+  .nf .h2 {
+    margin-bottom: 16px;
+  }
+  .nf__links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  .nf__links a {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--c-ink);
+    background: var(--c-surface);
+  }
+  .nf__links a:hover {
+    border-color: var(--c-brand);
+    color: var(--c-brand);
+  }
+</style>

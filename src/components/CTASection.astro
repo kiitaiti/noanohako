@@ -1,0 +1,113 @@
+---
+import { site } from '../data/site';
+interface Props {
+  title?: string;
+  text?: string;
+}
+const {
+  title = 'まずは見学・体験から。',
+  text = 'ご本人はもちろん、ご家族や相談支援員の方からのご相談も歓迎します。「話を聞いてみたい」だけでも大丈夫です。',
+} = Astro.props;
+---
+
+<section class="cta" aria-labelledby="cta-title">
+  <div class="container cta__inner">
+    <div class="cta__text" data-reveal>
+      <p class="eyebrow cta__eyebrow">Contact</p>
+      <h2 id="cta-title" class="cta__title">{title}</h2>
+      <p class="cta__lead">{text}</p>
+    </div>
+    <div class="cta__actions" data-reveal style="--reveal-delay:.1s">
+      <a href="/contact/" class="btn btn--light" data-cta="section_contact">
+        見学・体験を相談する
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href={site.telHref} class="cta__tel" data-location="cta">
+        <span class="cta__tel-label">お電話でのご相談</span>
+        <span class="cta__tel-num">{site.tel}</span>
+        <span class="cta__tel-hours">受付 {site.receptionHours}</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    background: var(--c-brand-deep);
+    color: #fff;
+    padding-block: clamp(64px, 9vw, 110px);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta::before {
+    content: '';
+    position: absolute;
+    right: -6%;
+    top: -30%;
+    width: 46vw;
+    max-width: 560px;
+    aspect-ratio: 1;
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18%;
+    transform: rotate(12deg);
+    pointer-events: none;
+  }
+  .cta__inner {
+    display: grid;
+    gap: 36px;
+    align-items: center;
+    position: relative;
+  }
+  @media (min-width: 900px) {
+    .cta__inner {
+      grid-template-columns: 1.2fr 1fr;
+      gap: 64px;
+    }
+  }
+  .cta__eyebrow {
+    color: #a9c0ee;
+  }
+  .cta__title {
+    font-size: var(--fs-h2);
+    margin-bottom: 16px;
+  }
+  .cta__lead {
+    color: #d8e2f5;
+    max-width: 34em;
+    margin: 0;
+  }
+  .cta__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  @media (min-width: 900px) {
+    .cta__actions {
+      align-items: flex-end;
+    }
+  }
+  .cta__tel {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: #fff;
+  }
+  @media (min-width: 900px) {
+    .cta__tel {
+      align-items: flex-end;
+    }
+  }
+  .cta__tel-label,
+  .cta__tel-hours {
+    font-size: var(--fs-xs);
+    color: #a9c0ee;
+  }
+  .cta__tel-num {
+    font-family: var(--f-en);
+    font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.2rem);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+</style>

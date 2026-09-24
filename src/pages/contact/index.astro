@@ -1,0 +1,433 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import { site } from '../../data/site';
+
+const title = 'お問い合わせ・見学/体験のご相談';
+const description =
+  'のあのはこ（就労継続支援B型・相模原市南区・町田駅 徒歩6分）への見学・体験・ご相談のお申し込み。ご本人、ご家族、相談支援員の方からのお問い合わせを受け付けています。電話 042-705-4422（受付 10:00〜21:00）。';
+const crumbs = [{ name: 'お問い合わせ', path: '/contact/' }];
+---
+
+<Base title={title} description={description} path="/contact/" breadcrumbs={crumbs}>
+  <PageHero
+    en="Contact"
+    title="お問い合わせ"
+    lead="見学・体験のお申し込み、ご相談はこちらから。ご本人だけでなく、ご家族や相談支援員の方からのご連絡も歓迎します。"
+    breadcrumbs={crumbs}
+  />
+
+  <section class="section contact">
+    <div class="container contact__grid">
+      <aside class="contact__side" data-reveal>
+        <h2 class="h3">お電話でも受け付けています</h2>
+        <a href={site.telHref} class="contact__tel" data-location="contact_page">{site.tel}</a>
+        <p class="contact__hours">電話受付 {site.receptionHours}</p>
+        <p class="contact__side-text">フォームからのお問い合わせには、順次ご連絡します。お急ぎの場合はお電話が確実です。</p>
+        <dl class="contact__facts">
+          <div><dt>通所時間</dt><dd>{site.hours.label}（休憩 {site.hours.breakLabel}）</dd></div>
+          <div><dt>工賃</dt><dd>{site.wage.label}</dd></div>
+          <div><dt>所在地</dt><dd>{site.address.full}<br />{site.nearestStation} {site.walk}</dd></div>
+        </dl>
+      </aside>
+
+      <div class="contact__main" data-reveal style="--reveal-delay:.08s">
+        <form
+          class="form"
+          name="contact"
+          method="POST"
+          action="/contact/thanks/"
+          data-netlify="true"
+          netlify-honeypot="company-website"
+          novalidate
+          id="contact-form"
+        >
+          <input type="hidden" name="form-name" value="contact" />
+          <p class="form__hp" aria-hidden="true">
+            <label>このフィールドは空のままにしてください <input name="company-website" tabindex="-1" autocomplete="off" /></label>
+          </p>
+
+          <p class="form__intro">必須項目は「<span class="req">必須</span>」で示しています。初回のご相談では、手帳や診断名などの詳しい情報は不要です。</p>
+
+          <div class="form__status" id="form-status" role="status" aria-live="polite"></div>
+
+          <div class="form__row">
+            <label for="name" class="form__label">お名前 <span class="req">必須</span></label>
+            <input id="name" name="name" type="text" required autocomplete="name" aria-describedby="name-err" />
+            <p class="form__err" id="name-err"></p>
+          </div>
+
+          <div class="form__row">
+            <label for="kana" class="form__label">ふりがな <span class="opt">任意</span></label>
+            <input id="kana" name="kana" type="text" autocomplete="off" />
+          </div>
+
+          <fieldset class="form__row form__fieldset">
+            <legend class="form__label">お立場 <span class="req">必須</span></legend>
+            <div class="form__choices" aria-describedby="role-err">
+              <label><input type="radio" name="role" value="ご本人" required /> ご本人</label>
+              <label><input type="radio" name="role" value="ご家族" /> ご家族</label>
+              <label><input type="radio" name="role" value="相談支援員・支援機関" /> 相談支援員・支援機関</label>
+              <label><input type="radio" name="role" value="その他" /> その他</label>
+            </div>
+            <p class="form__err" id="role-err"></p>
+          </fieldset>
+
+          <div class="form__row">
+            <label for="email" class="form__label">メールアドレス <span class="req">必須</span></label>
+            <input id="email" name="email" type="email" required autocomplete="email" inputmode="email" aria-describedby="email-err" />
+            <p class="form__err" id="email-err"></p>
+          </div>
+
+          <div class="form__row">
+            <label for="tel" class="form__label">電話番号 <span class="opt">任意</span></label>
+            <input id="tel" name="tel" type="tel" autocomplete="tel" inputmode="tel" />
+            <p class="form__help">電話でのご連絡を希望される場合はご記入ください。</p>
+          </div>
+
+          <fieldset class="form__row form__fieldset">
+            <legend class="form__label">ご希望 <span class="req">必須</span></legend>
+            <div class="form__choices" aria-describedby="purpose-err">
+              <label><input type="radio" name="purpose" value="見学したい" required /> 見学したい</label>
+              <label><input type="radio" name="purpose" value="体験したい" /> 体験したい</label>
+              <label><input type="radio" name="purpose" value="まず相談したい" /> まず相談したい</label>
+              <label><input type="radio" name="purpose" value="その他" /> その他</label>
+            </div>
+            <p class="form__err" id="purpose-err"></p>
+          </fieldset>
+
+          <fieldset class="form__row form__fieldset">
+            <legend class="form__label">興味のある作業 <span class="opt">任意</span></legend>
+            <div class="form__choices">
+              <label><input type="radio" name="interest" value="カフェ中心" /> カフェ中心</label>
+              <label><input type="radio" name="interest" value="クリエイティブ中心" /> クリエイティブ中心</label>
+              <label><input type="radio" name="interest" value="相談して決めたい" /> 相談して決めたい</label>
+            </div>
+          </fieldset>
+
+          <div class="form__row">
+            <label for="message" class="form__label">ご相談内容・ご希望の日時など <span class="opt">任意</span></label>
+            <textarea id="message" name="message" rows="6"></textarea>
+          </div>
+
+          <div class="form__row form__consent">
+            <label>
+              <input type="checkbox" name="privacy" value="同意する" required aria-describedby="privacy-err" />
+              <span><a href="/privacy/" target="_blank" rel="noopener">プライバシーポリシー</a>に同意する <span class="req">必須</span></span>
+            </label>
+            <p class="form__err" id="privacy-err"></p>
+          </div>
+
+          <div class="form__submit">
+            <button type="submit" class="btn btn--primary" id="submit-btn" data-cta="contact_submit">
+              <span class="btn__label">送信する</span>
+              <span class="btn__sending" hidden>送信中…</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact__grid {
+    display: grid;
+    gap: 40px;
+  }
+  @media (min-width: 900px) {
+    .contact__grid {
+      grid-template-columns: 4fr 8fr;
+      gap: 64px;
+    }
+    .contact__side {
+      position: sticky;
+      top: calc(var(--header-h) + 24px);
+      align-self: start;
+    }
+  }
+  .contact__side .h3 {
+    margin-bottom: 10px;
+  }
+  .contact__tel {
+    display: inline-block;
+    font-family: var(--f-en);
+    font-size: clamp(1.8rem, 1.4rem + 1.4vw, 2.4rem);
+    font-weight: 800;
+    color: var(--c-ink);
+    text-decoration: none;
+    line-height: 1.2;
+  }
+  .contact__hours {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-3);
+    margin-bottom: 12px;
+  }
+  .contact__side-text {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-2);
+  }
+  .contact__facts {
+    margin: 24px 0 0;
+    display: grid;
+    gap: 10px;
+  }
+  .contact__facts div {
+    padding: 12px 16px;
+    background: var(--c-surface);
+    border-radius: var(--radius-sm);
+  }
+  .contact__facts dt {
+    font-size: var(--fs-xs);
+    color: var(--c-ink-3);
+  }
+  .contact__facts dd {
+    margin: 0;
+    font-size: var(--fs-sm);
+    font-weight: 500;
+  }
+
+  .form {
+    background: var(--c-surface);
+    border-radius: var(--radius-lg);
+    padding: clamp(24px, 4vw, 40px);
+    box-shadow: var(--shadow-sm);
+  }
+  .form__hp {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .form__intro {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-2);
+    margin-bottom: 24px;
+  }
+  .req,
+  .opt {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-left: 6px;
+    line-height: 1.4;
+  }
+  .req {
+    background: var(--c-error);
+    color: #fff;
+  }
+  .opt {
+    background: var(--c-bg-soft);
+    color: var(--c-ink-2);
+  }
+  .form__row {
+    margin-bottom: 22px;
+  }
+  .form__fieldset {
+    border: 0;
+    padding: 0;
+    margin-inline: 0;
+    min-width: 0;
+  }
+  .form__label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 8px;
+    padding: 0;
+  }
+  .form input[type='text'],
+  .form input[type='email'],
+  .form input[type='tel'],
+  .form textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid var(--c-line);
+    border-radius: var(--radius-sm);
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    min-height: 52px;
+  }
+  .form input:focus,
+  .form textarea:focus {
+    outline: none;
+    border-color: var(--c-brand);
+    box-shadow: 0 0 0 3px var(--c-brand-soft);
+  }
+  .form .is-invalid {
+    border-color: var(--c-error);
+  }
+  .form__choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .form__choices label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1.5px solid var(--c-line);
+    border-radius: 999px;
+    cursor: pointer;
+    min-height: 44px;
+    transition: border-color 0.2s, background-color 0.2s;
+  }
+  .form__choices label:has(input:checked) {
+    border-color: var(--c-brand);
+    background: var(--c-brand-tint);
+  }
+  .form__choices label:has(input:focus-visible) {
+    outline: 3px solid var(--c-focus);
+    outline-offset: 2px;
+  }
+  .form__choices input {
+    accent-color: var(--c-brand);
+    width: 18px;
+    height: 18px;
+    margin: 0;
+  }
+  .form__help {
+    margin: 6px 0 0;
+    font-size: var(--fs-xs);
+    color: var(--c-ink-3);
+  }
+  .form__err {
+    margin: 6px 0 0;
+    font-size: var(--fs-sm);
+    color: var(--c-error);
+    font-weight: 500;
+  }
+  .form__err:empty {
+    display: none;
+  }
+  .form__consent label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .form__consent input {
+    width: 20px;
+    height: 20px;
+    margin-top: 4px;
+    accent-color: var(--c-brand);
+    flex: none;
+  }
+  .form__submit {
+    margin-top: 28px;
+  }
+  .form__submit .btn {
+    min-width: 220px;
+  }
+  .form__status {
+    margin-bottom: 20px;
+    padding: 0;
+    border-radius: var(--radius-sm);
+    font-size: var(--fs-sm);
+  }
+  .form__status:empty {
+    display: none;
+  }
+  .form__status.is-error {
+    padding: 14px 16px;
+    background: #fdecea;
+    color: var(--c-error);
+    border: 1px solid #f3c1bd;
+  }
+  .form__status.is-info {
+    padding: 14px 16px;
+    background: var(--c-brand-tint);
+    color: var(--c-brand-deep);
+  }
+  .form.is-sending {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  // Netlify Forms への送信（JS有効時は fetch、無効時は通常の POST → /contact/thanks/）
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const status = document.getElementById('form-status')!;
+  const btn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const label = btn.querySelector<HTMLElement>('.btn__label')!;
+  const sending = btn.querySelector<HTMLElement>('.btn__sending')!;
+
+  const setErr = (id: string, msg: string, field?: Element | null) => {
+    const el = document.getElementById(id + '-err');
+    if (el) el.textContent = msg;
+    field?.classList.toggle('is-invalid', Boolean(msg));
+  };
+
+  const validate = () => {
+    let ok = true;
+    let first: HTMLElement | null = null;
+    const req = (id: string, msg: string) => {
+      const f = form.elements.namedItem(id) as HTMLInputElement;
+      const v = f.value.trim();
+      if (!v) { setErr(id, msg, f); ok = false; first ||= f; } else setErr(id, '', f);
+      return v;
+    };
+    req('name', 'お名前を入力してください。');
+    const email = req('email', 'メールアドレスを入力してください。');
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setErr('email', 'メールアドレスの形式をご確認ください。', form.elements.namedItem('email') as Element);
+      ok = false; first ||= form.elements.namedItem('email') as HTMLElement;
+    }
+    for (const [name, msg] of [['role', 'お立場を選択してください。'], ['purpose', 'ご希望を選択してください。']]) {
+      const checked = form.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`);
+      if (!checked) { setErr(name, msg); ok = false; first ||= form.querySelector(`input[name="${name}"]`); } else setErr(name, '');
+    }
+    const privacy = form.querySelector<HTMLInputElement>('input[name="privacy"]')!;
+    if (!privacy.checked) { setErr('privacy', 'プライバシーポリシーへの同意が必要です。'); ok = false; first ||= privacy; } else setErr('privacy', '');
+    if (!ok) {
+      status.className = 'form__status is-error';
+      status.textContent = '入力内容をご確認ください。';
+      first?.focus();
+    } else {
+      status.className = 'form__status';
+      status.textContent = '';
+    }
+    return ok;
+  };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+    form.classList.add('is-sending');
+    btn.disabled = true;
+    label.hidden = true;
+    sending.hidden = false;
+    status.className = 'form__status is-info';
+    status.textContent = '送信しています…';
+    try {
+      const body = new URLSearchParams(new FormData(form) as any).toString();
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body,
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      // 送信完了ページへ（完了イベントは thanks ページ側で送信）
+      window.location.href = '/contact/thanks/';
+    } catch (err) {
+      form.classList.remove('is-sending');
+      btn.disabled = false;
+      label.hidden = false;
+      sending.hidden = true;
+      status.className = 'form__status is-error';
+      status.textContent = '送信できませんでした。時間をおいて再度お試しいただくか、お電話（042-705-4422）でご連絡ください。';
+      status.focus?.();
+    }
+  });
+
+  // 入力時にエラーを消す
+  form.addEventListener('input', (e) => {
+    const t = e.target as HTMLInputElement;
+    if (t.name) setErr(t.name, '', t.type === 'radio' || t.type === 'checkbox' ? null : t);
+  });
+</script>

@@ -1,0 +1,1357 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import KeyFacts from '../components/KeyFacts.astro';
+import GrowthDiagram from '../components/GrowthDiagram.astro';
+import Steps from '../components/Steps.astro';
+import FaqList from '../components/FaqList.astro';
+import CTASection from '../components/CTASection.astro';
+import Logo from '../components/Logo.astro';
+import FeaturedWorks from '../components/FeaturedWorks.astro';
+import { site, faqs } from '../data/site';
+import { getNews, formatDate, toISODate } from '../lib/cms';
+
+import heroImg from '../assets/photos/hero-illust-wide.jpg';
+import cafeImg from '../assets/photos/cafe-space-people.jpg';
+import pcRowImg from '../assets/photos/pc-row.jpg';
+import logoWallImg from '../assets/photos/main-floor-logo-wall.jpg';
+import roomImg from '../assets/photos/private-room-3.jpg';
+import pcCloseImg from '../assets/photos/pc-closeup.jpg';
+import yellowImg from '../assets/photos/floor-hex-yellow.jpg';
+
+const news = (await getNews()).slice(0, 3);
+const topFaqs = faqs.slice(0, 5);
+
+const description = site.description;
+---
+
+<Base title="ホーム" description={description} path="/" isHome ogImage="/og-image.jpg">
+  <!-- ========== 1. ファーストビュー（フルスクリーン・スライドショー） ========== -->
+  <!-- 導入演出（初回表示のみ / 参考動画のタイムラインを再現） -->
+  <div class="fv" data-intro aria-hidden="true">
+    <div class="fv__veil" data-el="veil"></div>
+    <div class="fv__plate" data-el="plate"></div>
+    <div class="fv__frame" data-el="frame">
+      <Photo src={heroImg} alt="" sizes="100vw" widths={[1280, 1920]} eager class="fv__frame-img" />
+    </div>
+    <div class="fv__mark" data-el="mark"><Logo width={44} /></div>
+  </div>
+
+  <section class="hero" aria-labelledby="hero-title" data-hero>
+    <div class="hero__stage" data-stage>
+    <div class="hero__slides" data-slideshow aria-hidden="true">
+      <div class="hero__slide is-active">
+        <Photo
+          src={heroImg}
+          alt=""
+          sizes="100vw"
+          widths={[768, 1280, 1920, 2600]}
+          eager
+          class="hero__img"
+        />
+      </div>
+    </div>
+    <div class="hero__shade" aria-hidden="true"></div>
+    <canvas class="hero__bubbles" data-bubbles aria-hidden="true"></canvas>
+    </div>
+
+    <div class="hero__big" aria-hidden="true">
+      <span class="hero__big-echo" data-el="bigEcho">NOANO<wbr />HAKO</span>
+      <span class="hero__big-text" data-el="big">NOANO<wbr />HAKO</span>
+    </div>
+
+    <div class="container hero__content" data-el="content">
+      <p class="hero__eyebrow">
+          <span>就労継続支援B型事業所</span>
+          <span class="hero__eyebrow-sep" aria-hidden="true"></span>
+          <span>神奈川県相模原市南区・町田駅 徒歩6分</span>
+        </p>
+      <h1 id="hero-title" class="hero__title">好きなことを、力に。</h1>
+      <div class="hero__row">
+      <div class="hero__main">
+        <p class="hero__lead">
+          カフェやクリエイティブの仕事を、自分に合ったペースで。<br class="pc-only" />
+          のあのはこは、一人ひとりの「やってみたい」を支える就労継続支援B型事業所です。
+        </p>
+        <div class="hero__actions">
+          <a href="/contact/" class="btn btn--primary" data-cta="hero_contact">
+            見学・体験を相談する
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="/service/" class="btn btn--outline-light" data-cta="hero_service">作業内容を見る</a>
+        </div>
+      </div>
+
+      </div>
+    </div>
+
+    <div class="hero__bottom container" aria-hidden="true" data-el="bottom">
+      <p class="hero__scroll"><span>Scroll</span><i></i></p>
+    </div>
+  </section>
+
+  <!-- ========== 1.5 制作実績（固定リスト） ========== -->
+  <FeaturedWorks />
+
+  <!-- ========== 2. 基本情報 ========== -->
+  <section class="facts-section" aria-labelledby="facts-title">
+    <div class="container">
+      <h2 id="facts-title" class="visually-hidden">通所時間・休憩・工賃・作業の選び方</h2>
+      <KeyFacts />
+      <p class="facts-section__note">
+        工賃は{site.wage.label}、{site.wage.monthlyMax}（{site.wage.monthlyNote}）。通所時間・休憩・工賃は作業の方向性にかかわらず共通です。
+        <a href="/guide/" class="text-link">利用案内を見る
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ========== 3. のあのはことは ========== -->
+  <section class="section about" aria-labelledby="about-title">
+    <div class="container about__grid">
+      <div class="about__head" data-reveal>
+        <p class="eyebrow">About</p>
+        <h2 id="about-title" class="h2">「はこ」のような、<br />あなたの居場所。</h2>
+      </div>
+      <div class="about__body" data-reveal style="--reveal-delay:.1s">
+        <p class="lead">
+          体調や障がいのことで、いきなり働くことに不安がある。そんな方が、自分のペースで取り組める場所でありたいと考えています。
+        </p>
+        <p>
+          のあのはこは、神奈川県相模原市南区にある就労継続支援B型事業所です。「やってみたい」「できた」という小さな経験を、ひとつずつ積み重ねていく。好きなことや得意なことを入り口に、社会で活きる力と自信を育てていきます。
+        </p>
+        <ul class="about__values">
+          <li>
+            <strong>本人のペースを尊重する</strong>
+            <span>できることから、少しずつ。無理のない範囲で取り組みます。</span>
+          </li>
+          <li>
+            <strong>実際の設備で、実際の作業を</strong>
+            <span>カフェ空間や制作用のパソコンなど、本物の環境で経験を重ねます。</span>
+          </li>
+          <li>
+            <strong>「毎日来られる」を大切に</strong>
+            <span>就労だけをゴールにせず、通える・言える・助け合えるという前進を大切にします。</span>
+          </li>
+        </ul>
+        <a href="/service/#support" class="text-link">支援体制と施設について
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 4. 選べる作業内容 ========== -->
+  <section class="section section--white service" aria-labelledby="service-title">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div data-reveal>
+          <p class="eyebrow">Service</p>
+          <h2 id="service-title" class="h2">興味や得意に合わせて、<br />作業の方向性を選べます。</h2>
+        </div>
+        <p class="lead" data-reveal style="--reveal-delay:.1s">
+          カフェを中心とした作業か、クリエイティブを中心とした作業か。どちらを選んでも、通所時間は{site.hours.label}、工賃は{site.wage.label}で同じです。
+        </p>
+      </div>
+
+      <div class="service__row service__row--cafe">
+        <div class="service__photo" data-reveal>
+          <Photo
+            src={cafeImg}
+            alt="カフェスペースのハイテーブルに座る3人。奥にカウンターと、飲み物やお菓子が並ぶ棚が見える"
+            sizes="(min-width: 900px) 52vw, 100vw"
+            widths={[640, 960, 1280, 1600]}
+            aspect="4/3"
+            position="50% 60%"
+            class="service__img"
+          />
+        </div>
+        <div class="service__text" data-reveal style="--reveal-delay:.1s">
+          <p class="service__tag">カフェ中心</p>
+          <h3 class="service__title">人と関わる仕事を、<br />カフェ空間で。</h3>
+          <p>
+            接客など、カフェ業務に関わる作業を中心に取り組みます。実際のカフェ空間で、お客さまとのやりとりや、仕事の段取りを経験できます。
+          </p>
+          <ul class="service__list">
+            <li>接客</li>
+            <li>カフェ業務に関わる作業</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="service__row service__row--creative">
+        <div class="service__photo" data-reveal>
+          <Photo
+            src={pcRowImg}
+            alt="制作用のパソコンが並ぶ作業席。各席にモニター、キーボード、ヘッドセットが用意されている"
+            sizes="(min-width: 900px) 52vw, 100vw"
+            widths={[640, 960, 1280, 1600]}
+            aspect="4/3"
+            position="50% 45%"
+            class="service__img"
+          />
+        </div>
+        <div class="service__text" data-reveal style="--reveal-delay:.1s">
+          <p class="service__tag service__tag--creative">クリエイティブ中心</p>
+          <h3 class="service__title">パソコンでつくる仕事を、<br />制作環境で。</h3>
+          <p>
+            動画編集、SNS更新、3DCG、AI活用など、制作やパソコンを使う作業を中心に取り組みます。実際の設備を使いながら、「できた」を積み重ねます。
+          </p>
+          <ul class="service__list">
+            <li>動画編集</li>
+            <li>SNS更新</li>
+            <li>3DCG</li>
+            <li>AI活用</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="service__other" data-reveal>
+        <div>
+          <h3 class="h3">そのほかの作業</h3>
+          <p>データ入力、清掃業務、内職など、事業所内のさまざまな作業もあります。体調やその日の状況に合わせて、スタッフと相談しながら取り組みます。</p>
+        </div>
+        <a href="/service/" class="btn btn--ghost" data-cta="top_service">作業内容をくわしく見る</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 5. 成長を支える3つの要素 ========== -->
+  <section class="section growth-section" aria-labelledby="growth-title">
+    <div class="container growth-section__grid">
+      <div class="growth-section__figure" data-reveal>
+        <GrowthDiagram />
+      </div>
+      <div class="growth-section__text">
+        <p class="eyebrow" data-reveal>Growth</p>
+        <h2 id="growth-title" class="h2" data-reveal>成長を支える、3つの要素。</h2>
+        <p class="lead" data-reveal style="--reveal-delay:.05s">
+          好きなことを入り口にしながら、社会で活きる力を少しずつ育てます。取り組む内容や進み方は、一人ひとり異なります。
+        </p>
+        <dl class="growth-list">
+          <div data-reveal style="--reveal-delay:.1s">
+            <dt><span class="growth-list__num">1</span>社会性</dt>
+            <dd>思いやり、コミュニケーション、協調性、自己理解など。人と関わるなかで育つ力です。</dd>
+          </div>
+          <div data-reveal style="--reveal-delay:.15s">
+            <dt><span class="growth-list__num">2</span>仕事の流れ</dt>
+            <dd>仕事の進め方、役割、受注から納品までの流れなど。「仕事」の全体像を経験します。</dd>
+          </div>
+          <div data-reveal style="--reveal-delay:.2s">
+            <dt><span class="growth-list__num">3</span>スキル</dt>
+            <dd>動画編集や制作、実際の設備を使った作業など。手を動かして身につける力です。</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 6. 支援体制 ========== -->
+  <section class="section section--tint support" aria-labelledby="support-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Support</p>
+        <h2 id="support-title" class="h2">一人ひとりに合わせた支援。</h2>
+      </div>
+      <div class="support__grid">
+        <article class="support__item" data-reveal>
+          <h3>個別支援計画</h3>
+          <p>ご本人の希望や状況をもとに計画を作成し、目標や取り組みを一緒に確認しながら進めます。</p>
+        </article>
+        <article class="support__item" data-reveal style="--reveal-delay:.06s">
+          <h3>健康・生活リズムのサポート</h3>
+          <p>通所を続けるための体調や生活リズムを、無理のない形で一緒に整えていきます。</p>
+        </article>
+        <article class="support__item" data-reveal style="--reveal-delay:.12s">
+          <h3>対人・就労スキルの育成</h3>
+          <p>あいさつや報告、役割分担など、働くうえで役立つ力を日々の活動のなかで育てます。</p>
+        </article>
+        <article class="support__item" data-reveal style="--reveal-delay:.18s">
+          <h3>作品・実績づくりの支援</h3>
+          <p>制作物や作業の経験を形に残し、次の一歩につながる実績づくりをサポートします。</p>
+        </article>
+      </div>
+      <p class="support__note">スタッフ体制や資格の詳細については、見学・相談の際にご案内します。</p>
+    </div>
+  </section>
+
+  <!-- ========== 7. 施設・設備 ========== -->
+  <section class="section facility" aria-labelledby="facility-title">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div data-reveal>
+          <p class="eyebrow">Facility</p>
+          <h2 id="facility-title" class="h2">実際の空間と設備。</h2>
+        </div>
+        <p class="lead" data-reveal style="--reveal-delay:.1s">
+          制作用のパソコン、カフェ設備、少人数で使える個室など。同じ運営法人のeスポーツ施設「NOABOX」と連携した環境で活動しています。
+        </p>
+      </div>
+      <div class="facility__gallery">
+        <figure class="facility__fig facility__fig--l" data-reveal>
+          <Photo src={logoWallImg} alt="メインフロア。壁面のロゴ、六角形の照明、並んだパソコン席" sizes="(min-width: 900px) 60vw, 100vw" widths={[640, 960, 1280, 1600]} aspect="3/2" class="facility__img" />
+          <figcaption>メインフロア</figcaption>
+        </figure>
+        <figure class="facility__fig" data-reveal style="--reveal-delay:.08s">
+          <Photo src={roomImg} alt="3人用の個室。3台のパソコンとモニターが並ぶ" sizes="(min-width: 900px) 38vw, 100vw" widths={[480, 768, 1024]} aspect="1/1" class="facility__img" />
+          <figcaption>3人用個室</figcaption>
+        </figure>
+        <figure class="facility__fig facility__fig--l" data-reveal style="--reveal-delay:.16s">
+          <Photo src={yellowImg} alt="観葉植物のあるフロア。木目のデスクにパソコンとモニターが並ぶ" sizes="(min-width: 900px) 60vw, 100vw" widths={[640, 960, 1280, 1600]} aspect="3/2" position="50% 55%" class="facility__img" />
+          <figcaption>作業席とフロア</figcaption>
+        </figure>
+        <figure class="facility__fig" data-reveal style="--reveal-delay:.12s">
+          <Photo src={pcCloseImg} alt="作業席に設置されたパソコン本体のアップ" sizes="(min-width: 900px) 38vw, 100vw" widths={[480, 768, 1024]} aspect="1/1" position="50% 40%" class="facility__img" />
+          <figcaption>制作用パソコン</figcaption>
+        </figure>
+      </div>
+      <a href="/service/#facility" class="text-link" data-reveal>施設・設備をくわしく見る
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========== 8. 1日の流れ ========== -->
+  <section class="section section--white day" aria-labelledby="day-title">
+    <div class="container day__grid">
+      <div class="day__head" data-reveal>
+        <p class="eyebrow">Daily</p>
+        <h2 id="day-title" class="h2">1日の流れ</h2>
+        <p class="lead">通所時間は{site.hours.label}。{site.hours.breakLabel}は昼休憩です。作業の内容は、その日の体調や取り組みに合わせて調整します。</p>
+      </div>
+      <ol class="timeline">
+        <li class="timeline__item" data-reveal>
+          <time datetime="10:00">10:00</time>
+          <div>
+            <h3>通所・午前の活動</h3>
+            <p>体調の確認をして、その日の作業を始めます。カフェ中心・クリエイティブ中心、それぞれの作業に取り組みます。</p>
+          </div>
+        </li>
+        <li class="timeline__item" data-reveal style="--reveal-delay:.06s">
+          <time datetime="12:00">12:00</time>
+          <div>
+            <h3>昼休憩（12:00〜13:00）</h3>
+            <p>1時間の休憩です。昼食の提供はありませんので、各自でご用意ください。</p>
+          </div>
+        </li>
+        <li class="timeline__item" data-reveal style="--reveal-delay:.12s">
+          <time datetime="13:00">13:00</time>
+          <div>
+            <h3>午後の活動</h3>
+            <p>午前の続きや、別の作業に取り組みます。分からないことはスタッフに相談しながら進めます。</p>
+          </div>
+        </li>
+        <li class="timeline__item" data-reveal style="--reveal-delay:.18s">
+          <time datetime="15:00">15:00</time>
+          <div>
+            <h3>活動終了・帰宅</h3>
+            <p>片付けと振り返りをして、1日の活動を終えます。</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========== 9. 利用開始までの流れ ========== -->
+  <section class="section flow" aria-labelledby="flow-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Flow</p>
+        <h2 id="flow-title" class="h2">利用開始までの流れ</h2>
+      </div>
+      <Steps />
+    </div>
+  </section>
+
+  <!-- ========== 10. FAQ ========== -->
+  <section class="section section--soft faq-section" aria-labelledby="faq-title">
+    <div class="container faq-section__grid">
+      <div class="faq-section__head" data-reveal>
+        <p class="eyebrow">FAQ</p>
+        <h2 id="faq-title" class="h2">よくある質問</h2>
+        <p class="lead">工賃や通所時間、見学についてなど、よくいただくご質問をまとめました。</p>
+        <a href="/faq/" class="btn btn--ghost btn--sm">すべての質問を見る</a>
+      </div>
+      <div>
+        <FaqList items={topFaqs} />
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 11. お知らせ ========== -->
+  <section class="section news-section" aria-labelledby="news-title">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div data-reveal>
+          <p class="eyebrow">Column</p>
+          <h2 id="news-title" class="h2">コラム</h2>
+        </div>
+        <div class="news-section__links" data-reveal>
+          <a href="/column/" class="text-link">コラム一覧
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="/works/" class="text-link">制作実績
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+      <ul class="news-list">
+        {
+          news.map((n, i) => (
+            <li class="news-list__item" data-reveal style={`--reveal-delay:${i * 0.06}s`}>
+              <a href={`/column/${n.slug}/`}>
+                <time datetime={toISODate(n.publishedAt)}>{formatDate(n.publishedAt)}</time>
+                <span class="news-list__cat">{n.category}</span>
+                <span class="news-list__title">{n.title}</span>
+              </a>
+            </li>
+          ))
+        }
+        {news.length === 0 && <li class="news-list__empty">コラムは準備中です。</li>}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========== 12. アクセス・施設概要 ========== -->
+  <section class="section section--white access" aria-labelledby="access-title">
+    <div class="container access__grid">
+      <div data-reveal>
+        <p class="eyebrow">Access</p>
+        <h2 id="access-title" class="h2">アクセス・施設概要</h2>
+        <table class="table access__table">
+          <tbody>
+            <tr><th>施設名</th><td>{site.fullName}</td></tr>
+            <tr><th>サービス種別</th><td>就労継続支援B型（障害福祉サービス）</td></tr>
+            <tr><th>所在地</th><td>{site.address.full}</td></tr>
+            <tr><th>最寄り駅</th><td>{site.nearestStation} {site.walk}</td></tr>
+            <tr><th>電話</th><td><a href={site.telHref} data-location="top_access">{site.tel}</a>（受付 {site.receptionHours}）</td></tr>
+            <tr><th>通所時間</th><td>{site.hours.label}（休憩 {site.hours.breakLabel}）</td></tr>
+            <tr><th>運営法人</th><td>{site.legalName}</td></tr>
+          </tbody>
+        </table>
+        <a href="/access/" class="text-link">地図と行き方を見る
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <div class="access__map" data-reveal style="--reveal-delay:.1s">
+        <iframe
+          title="のあのはこ 周辺地図（Googleマップ）"
+          src="https://www.google.com/maps?q=%E7%A5%9E%E5%A5%88%E5%B7%9D%E7%9C%8C%E7%9B%B8%E6%A8%A1%E5%8E%9F%E5%B8%82%E5%8D%97%E5%8C%BA%E4%B8%8A%E9%B6%B4%E9%96%93%E6%9C%AC%E7%94%BA3-6-16&output=embed&z=16"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 13. CTA ========== -->
+  <CTASection />
+</Base>
+
+<style>
+  .pc-only {
+    display: none;
+  }
+  @media (min-width: 900px) {
+    .pc-only {
+      display: inline;
+    }
+  }
+
+  /* ---- Hero ---- */
+  .hero {
+    position: relative;
+    height: calc(100svh - var(--header-h));
+    min-height: 600px;
+    max-height: 1000px;
+    overflow: hidden;
+    background: var(--c-bg);
+    color: #fff;
+  }
+  .hero__stage {
+    position: absolute;
+    inset: 0;
+    background: #46708a;
+  }
+  .hero {
+    background: #46708a;
+  }
+
+  /* ---- 導入レイヤー（fixed / 参考動画の配色・比率） ---- */
+  .fv {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    pointer-events: none;
+  }
+  .fv.is-done,
+  html.no-js .fv {
+    display: none;
+  }
+  .fv__veil {
+    position: absolute;
+    inset: 0;
+    background: #659ead;
+  }
+  .fv__plate {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 33vw;
+    height: 33vw;
+    max-width: 66vh;
+    max-height: 66vh;
+    margin: -16.5vw 0 0 -16.5vw;
+    border-radius: 2.2vw;
+    background: rgba(0, 0, 0, 0.12);
+    transform-origin: center;
+    opacity: 0;
+  }
+  .fv__frame {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 16vw;
+    height: 16vw;
+    transform: translate(-50%, -50%);
+    border-radius: 0.55vw;
+    overflow: hidden;
+    opacity: 0;
+  }
+  .fv__frame :global(picture),
+  .fv__frame :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .fv__frame :global(img) {
+    object-fit: cover;
+    object-position: 100% 50%;
+    transform-origin: center;
+  }
+  .fv__mark {
+    position: absolute;
+    left: 50%;
+    top: 47%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+  @media (max-aspect-ratio: 1/1) {
+    .fv__plate { width: 70vw; height: 70vw; margin: -35vw 0 0 -35vw; border-radius: 5vw; max-width: none; max-height: none; }
+    .fv__frame { width: 36vw; height: 36vw; }
+  }
+  /* 導入中は本体を隠す（JSが is-intro を付与） */
+  html.js .hero.is-intro .hero__content,
+  html.js .hero.is-intro .hero__bottom,
+  html.js .hero.is-intro::after,
+  html.js body.is-intro #site-header {
+    opacity: 0;
+  }
+  .hero::after {
+    transition: opacity 0.8s ease;
+  }
+  html.js .hero.is-intro .hero__big-text,
+  html.js .hero.is-intro .hero__big-echo {
+    opacity: 0;
+  }
+
+  /* ---- 巨大英字（装飾） ---- */
+  .hero__big {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .hero__big-text,
+  .hero__big-echo {
+    position: absolute;
+    left: -0.02em;
+    top: 0;
+    white-space: nowrap;
+    font-family: var(--f-en);
+    font-weight: 300;
+    font-size: 13.5vw;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: #fff;
+    opacity: 0.14;
+    transform: translateY(var(--big-y, 8vh));
+  }
+  .hero__big-echo {
+    opacity: 0;
+  }
+  @media (max-width: 899px) {
+    .hero__big-text,
+    .hero__big-echo {
+      font-size: 19vw;
+      white-space: normal;
+      line-height: 0.95;
+      transform: translateY(var(--big-y, 10vh));
+    }
+  }
+
+  .hero__slides,
+  .hero__slide {
+    position: absolute;
+    inset: 0;
+  }
+  .hero__slide {
+    opacity: 0;
+    transition: opacity 1.6s ease-in-out;
+  }
+  .hero__slide.is-active {
+    opacity: 1;
+  }
+  .hero__slide :global(picture),
+  .hero__slide :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .hero__slide :global(img) {
+    object-fit: cover;
+    object-position: 100% 50%;
+  }
+  @media (max-aspect-ratio: 1/1) {
+    .hero__slide :global(img),
+    .fv__frame :global(img) {
+      object-position: 72% 50%;
+    }
+    transform: none;
+  }
+  .hero__bubbles {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__bubbles { display: none; }
+  }
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to top, rgba(20, 40, 60, 0.55) 0%, rgba(20, 40, 60, 0.18) 40%, rgba(20, 40, 60, 0) 60%),
+      linear-gradient(to right, rgba(20, 40, 60, 0.28), rgba(20, 40, 60, 0) 55%);
+    pointer-events: none;
+  }
+  /* 細いフレーム線（ブランドの「はこ」） */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 18px;
+    pointer-events: none;
+  }
+  @media (max-width: 899px) {
+    .hero::after {
+      inset: 12px;
+      border-radius: 14px;
+    }
+  }
+  .hero__content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(64px, 10vh, 110px);
+  }
+  .hero__row {
+    display: grid;
+    gap: 24px;
+    align-items: end;
+  }
+  .hero__eyebrow {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 18px;
+  }
+  .hero__eyebrow-sep {
+    width: 1px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.4);
+  }
+  .hero__title {
+    font-size: clamp(2.2rem, 1.2rem + 3.8vw, 4.6rem);
+    line-height: 1.18;
+    letter-spacing: 0.04em;
+    color: #fff;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+    margin: 0 0 18px;
+  }
+  .hero__lead {
+    font-size: var(--fs-lg);
+    color: rgba(255, 255, 255, 0.88);
+    max-width: none;
+    margin: 0 0 24px;
+    white-space: nowrap;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .btn--outline-light {
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+  .btn--outline-light:hover {
+    background: #fff;
+    color: var(--c-ink);
+    border-color: #fff;
+  }
+  /* 下端: スライド位置とスクロール表示 */
+  .hero__bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 26px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .hero__indicators {
+    display: flex;
+    gap: 8px;
+  }
+  .hero__indicators span {
+    width: 28px;
+    height: 3px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.35);
+    transition: background-color 0.4s;
+  }
+  .hero__indicators span.is-active {
+    background: #fff;
+  }
+  .hero__scroll {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-family: var(--f-en);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .hero__scroll i {
+    display: block;
+    width: 36px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.5);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero__scroll i::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    transform: translateX(-100%);
+    animation: hero-scroll 2.2s ease-in-out infinite;
+  }
+  @keyframes hero-scroll {
+    0% { transform: translateX(-100%); }
+    60%, 100% { transform: translateX(100%); }
+  }
+  @media (max-width: 480px) {
+    .hero__scroll {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fv {
+      display: none;
+    }
+    .hero__slide,
+    .hero__slide :global(img) {
+      transition: none;
+      transform: none;
+    }
+
+    .hero__scroll i::after {
+      animation: none;
+    }
+  }
+
+  /* ---- Facts ---- */
+  .facts-section {
+    padding-block: clamp(40px, 6vw, 80px) clamp(48px, 7vw, 96px);
+  }
+  .facts-section__note {
+    margin: 18px 0 0;
+    font-size: var(--fs-sm);
+    color: var(--c-ink-2);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    align-items: center;
+  }
+
+  /* ---- About ---- */
+  .about {
+    padding-top: clamp(56px, 8vw, 120px);
+    border-top: 1px solid var(--c-line-soft);
+  }
+  .about__grid {
+    display: grid;
+    gap: 32px 64px;
+  }
+  @media (min-width: 900px) {
+    .about__grid {
+      grid-template-columns: 5fr 7fr;
+    }
+    .about__head {
+      position: sticky;
+      top: calc(var(--header-h) + 32px);
+      align-self: start;
+    }
+  }
+  .about__values {
+    list-style: none;
+    padding: 0;
+    margin: 28px 0 28px;
+    display: grid;
+    gap: 14px;
+  }
+  .about__values li {
+    display: grid;
+    gap: 4px;
+    padding: 18px 20px 18px 28px;
+    background: var(--c-surface);
+    border-radius: var(--radius);
+    position: relative;
+  }
+  .about__values li::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 24px;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--c-accent);
+  }
+  .about__values strong {
+    font-size: var(--fs-lg);
+  }
+  .about__values span {
+    color: var(--c-ink-2);
+    font-size: var(--fs-sm);
+  }
+
+  /* ---- Service ---- */
+  .service__row {
+    display: grid;
+    gap: 24px 56px;
+    align-items: center;
+    padding-block: clamp(24px, 4vw, 48px);
+  }
+  .service__row + .service__row {
+    border-top: 1px solid var(--c-line-soft);
+  }
+  @media (min-width: 900px) {
+    .service__row {
+      grid-template-columns: 1.15fr 1fr;
+    }
+    .service__row--creative .service__photo {
+      order: 2;
+    }
+  }
+  .service__photo :global(img) {
+    width: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+  .service__tag {
+    display: inline-block;
+    font-weight: 700;
+    font-size: var(--fs-sm);
+    color: var(--c-brand-deep);
+    background: var(--c-brand-soft);
+    padding: 6px 14px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+  }
+  .service__tag--creative {
+    color: #7a5310;
+    background: var(--c-accent-soft);
+  }
+  .service__title {
+    font-size: var(--fs-h2);
+    margin-bottom: 16px;
+  }
+  .service__list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .service__list li {
+    padding: 6px 14px;
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+    font-size: var(--fs-sm);
+    background: var(--c-bg);
+  }
+  .service__other {
+    margin-top: clamp(24px, 4vw, 40px);
+    padding: clamp(24px, 4vw, 40px);
+    background: var(--c-bg-soft);
+    border-radius: var(--radius-lg);
+    display: grid;
+    gap: 20px;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .service__other {
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+    }
+  }
+  .service__other p {
+    margin: 8px 0 0;
+    color: var(--c-ink-2);
+  }
+
+  /* ---- Growth ---- */
+  .growth-section__grid {
+    display: grid;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    .growth-section__grid {
+      grid-template-columns: 1fr 1.1fr;
+      gap: 72px;
+    }
+  }
+  .growth-list {
+    margin: 28px 0 0;
+    display: grid;
+    gap: 16px;
+  }
+  .growth-list dt {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: var(--fs-lg);
+    margin-bottom: 6px;
+  }
+  .growth-list__num {
+    font-family: var(--f-en);
+    font-weight: 800;
+    font-size: 0.85rem;
+    width: 26px;
+    height: 26px;
+    display: grid;
+    place-items: center;
+    background: var(--c-brand);
+    color: #fff;
+    border-radius: 7px;
+  }
+  .growth-list dd {
+    margin: 0 0 0 38px;
+    color: var(--c-ink-2);
+  }
+
+  /* ---- Support ---- */
+  .support__grid {
+    display: grid;
+    gap: 16px;
+  }
+  @media (min-width: 700px) {
+    .support__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1100px) {
+    .support__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .support__item {
+    background: var(--c-surface);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    border-top: 3px solid var(--c-brand);
+    transition: transform 0.3s var(--ease), box-shadow 0.3s;
+  }
+  .support__item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+  .support__item h3 {
+    font-size: var(--fs-lg);
+    margin-bottom: 10px;
+  }
+  .support__item p {
+    margin: 0;
+    color: var(--c-ink-2);
+    font-size: var(--fs-sm);
+  }
+  .support__note {
+    margin: 20px 0 0;
+    font-size: var(--fs-sm);
+    color: var(--c-ink-3);
+  }
+
+  /* ---- Facility ---- */
+  .facility__gallery {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  @media (min-width: 900px) {
+    .facility__gallery {
+      grid-template-columns: 3fr 2fr;
+    }
+  }
+  .facility__fig {
+    margin: 0;
+  }
+  .facility__fig :global(img) {
+    width: 100%;
+    object-fit: cover;
+    border-radius: var(--radius);
+    transition: transform 0.6s var(--ease);
+  }
+  .facility__fig :global(picture) {
+    display: block;
+    overflow: hidden;
+    border-radius: var(--radius);
+  }
+  .facility__fig:hover :global(img) {
+    transform: scale(1.03);
+  }
+  .facility__fig figcaption {
+    margin-top: 10px;
+    font-size: var(--fs-xs);
+    color: var(--c-ink-3);
+    letter-spacing: 0.06em;
+  }
+
+  /* ---- Day ---- */
+  .day__grid {
+    display: grid;
+    gap: 40px;
+  }
+  @media (min-width: 900px) {
+    .day__grid {
+      grid-template-columns: 5fr 7fr;
+      gap: 72px;
+    }
+  }
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 86px;
+    top: 12px;
+    bottom: 12px;
+    width: 2px;
+    background: var(--c-line);
+  }
+  .timeline__item {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 28px;
+    padding: 20px 0;
+    position: relative;
+  }
+  .timeline__item::before {
+    content: '';
+    position: absolute;
+    left: 81px;
+    top: 30px;
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    background: var(--c-brand);
+    border: 2px solid var(--c-surface);
+  }
+  .timeline__item time {
+    font-family: var(--f-en);
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--c-ink);
+    padding-top: 4px;
+  }
+  .timeline__item h3 {
+    font-size: var(--fs-lg);
+    margin-bottom: 6px;
+  }
+  .timeline__item p {
+    margin: 0;
+    color: var(--c-ink-2);
+    font-size: var(--fs-sm);
+  }
+  @media (max-width: 480px) {
+    .timeline::before {
+      left: 64px;
+    }
+    .timeline__item {
+      grid-template-columns: 52px 1fr;
+      gap: 24px;
+    }
+    .timeline__item::before {
+      left: 59px;
+    }
+    .timeline__item time {
+      font-size: 1.05rem;
+    }
+  }
+
+  /* ---- FAQ ---- */
+  .faq-section__grid {
+    display: grid;
+    gap: 32px;
+  }
+  @media (min-width: 900px) {
+    .faq-section__grid {
+      grid-template-columns: 4fr 8fr;
+      gap: 64px;
+    }
+    .faq-section__head {
+      position: sticky;
+      top: calc(var(--header-h) + 32px);
+      align-self: start;
+    }
+  }
+  .faq-section__head .lead {
+    margin-block: 16px 24px;
+  }
+
+  /* ---- News ---- */
+  .news-section__links {
+    display: flex;
+    gap: 24px;
+  }
+  @media (min-width: 900px) {
+    .news-section__links {
+      justify-content: flex-end;
+    }
+  }
+  .news-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--c-line);
+  }
+  .news-list__item a {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
+    gap: 8px 20px;
+    padding: 20px 4px;
+    border-bottom: 1px solid var(--c-line);
+    text-decoration: none;
+    color: var(--c-ink);
+    transition: background-color 0.25s;
+  }
+  .news-list__item a:hover {
+    background: var(--c-surface);
+  }
+  .news-list__item time {
+    font-family: var(--f-en);
+    font-weight: 700;
+    color: var(--c-ink-3);
+    font-size: var(--fs-sm);
+  }
+  .news-list__cat {
+    font-size: var(--fs-xs);
+    padding: 3px 10px;
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+    color: var(--c-ink-2);
+    white-space: nowrap;
+  }
+  .news-list__title {
+    font-weight: 500;
+  }
+  .news-list__item a:hover .news-list__title {
+    color: var(--c-brand);
+  }
+  @media (max-width: 600px) {
+    .news-list__item a {
+      grid-template-columns: auto auto;
+    }
+    .news-list__title {
+      grid-column: 1 / -1;
+    }
+  }
+  .news-list__empty {
+    padding: 24px 4px;
+    color: var(--c-ink-3);
+  }
+
+  /* ---- Access ---- */
+  .access__grid {
+    display: grid;
+    gap: 32px;
+  }
+  @media (min-width: 900px) {
+    .access__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+    }
+  }
+  .access__table {
+    margin-block: 24px;
+  }
+  .access__map {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    min-height: 320px;
+    background: var(--c-bg-soft);
+  }
+  .access__map iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 320px;
+    border: 0;
+    display: block;
+  }
+</style>
+
+<script>
+  // 導入演出（参考動画のタイムライン再現 / 初回表示のみ・1セッション1回）
+  {
+    const fv = document.querySelector<HTMLElement>('[data-intro]');
+    const hero = document.querySelector<HTMLElement>('[data-hero]');
+    const header = document.getElementById('site-header');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let seen = false;
+    try { seen = sessionStorage.getItem('noanohako-intro') === '1'; } catch {}
+    const q = (k: string) => document.querySelector<HTMLElement>(`[data-el="${k}"]`)!;
+
+    if (fv && hero && !reduce && !seen) {
+      hero.classList.add('is-intro');
+      document.body.classList.add('is-intro');
+      document.documentElement.style.overflow = 'hidden';
+      const portrait = window.matchMedia('(max-aspect-ratio: 1/1)').matches;
+      const BIG_START = portrait ? '70vh' : '78vh';
+      const BIG_FINAL = portrait ? '10vh' : '8vh';
+      hero.style.setProperty('--big-y', BIG_FINAL);
+      const OUT = 'cubic-bezier(0.22, 1, 0.36, 1)';
+      const INOUT = 'cubic-bezier(0.65, 0, 0.2, 1)';
+      const SOFT = 'cubic-bezier(0.4, 0, 0.2, 1)';
+      const el = {
+        veil: q('veil'), plate: q('plate'), frame: q('frame'), frameImg: fv.querySelector<HTMLElement>('img')!,
+        mark: q('mark'), big: q('big'), bigEcho: q('bigEcho'), content: q('content'), bottom: q('bottom'),
+        header: header!, veilTail: fv,
+      };
+      // 写真が最終的に収まる位置＝ヒーローの実サイズ（ヘッダー下）。ここに一致させると切替時の段差が出ない
+      const R = hero.getBoundingClientRect();
+      const T: [keyof typeof el, Keyframe[], { at: number; dur: number; ease: string }][] = [
+        ['veil', [{ opacity: 1 }, { opacity: 1, offset: 0.85 }, { opacity: 0 }], { at: 0, dur: 1.55, ease: 'linear' }],
+        ['mark', [{ opacity: 0 }, { opacity: 1 }], { at: 0, dur: 0.18, ease: SOFT }],
+        ['mark', [{ top: '47%' }, { top: '9%' }], { at: 0.12, dur: 0.5, ease: OUT }],
+        ['mark', [{ opacity: 1 }, { opacity: 0 }], { at: 1.15, dur: 0.3, ease: SOFT }],
+        ['plate', [{ opacity: 0 }, { opacity: 1 }], { at: 0.18, dur: 0.12, ease: 'linear' }],
+        ['plate', [{ transform: 'scale(0.06) rotate(-22deg)' }, { transform: 'scale(0.55) rotate(-9deg)', offset: 0.35 }, { transform: 'scale(1) rotate(3deg)' }], { at: 0.18, dur: 0.42, ease: OUT }],
+        ['plate', [{ transform: 'scale(1) rotate(3deg)' }, { transform: 'scale(1) rotate(0deg)' }], { at: 0.6, dur: 0.35, ease: SOFT }],
+        ['plate', [{ transform: 'scale(1)', opacity: 1 }, { transform: portrait ? 'scale(1.6,2.2)' : 'scale(2,3.1)', opacity: 1, offset: 0.7 }, { transform: portrait ? 'scale(1.9,2.6)' : 'scale(2.4,3.4)', opacity: 0 }], { at: 1.0, dur: 0.5, ease: INOUT }],
+        ['frame', [{ opacity: 0 }, { opacity: 1 }], { at: 0.1, dur: 0.1, ease: 'linear' }],
+        ['frame', [{ width: portrait ? '5vw' : '2vw', height: portrait ? '5vw' : '2vw' }, { width: portrait ? '36vw' : '16vw', height: portrait ? '36vw' : '16vw' }], { at: 0.1, dur: 0.5, ease: OUT }],
+        ['frame', [{ width: portrait ? '36vw' : '16vw', height: portrait ? '36vw' : '16vw' }, { width: portrait ? '42vw' : '19vw', height: portrait ? '42vw' : '19vw' }], { at: 0.6, dur: 0.4, ease: SOFT }],
+        ['frame', [
+          { left: '50%', top: '50%', transform: 'translate(-50%,-50%)', width: portrait ? '42vw' : '19vw', height: portrait ? '42vw' : '19vw', borderRadius: '0.55vw' },
+          { left: '50%', top: '50%', transform: 'translate(-50%,-50%)', width: portrait ? '90vw' : '58vw', height: portrait ? '60vh' : '66vh', borderRadius: '0.4vw', offset: 0.45 },
+          { left: '0px', top: `${R.top}px`, transform: 'translate(0,0)', width: `${R.width}px`, height: `${R.height}px`, borderRadius: '0' },
+        ], { at: 1.0, dur: 0.45, ease: INOUT }],
+        ['veilTail', [{ opacity: 1 }, { opacity: 0 }], { at: 1.45, dur: 0.4, ease: 'linear' }],
+        ['frameImg', [{ transform: 'scale(1.35)' }, { transform: 'scale(1.35)', offset: 0.62 }, { transform: 'scale(1)' }], { at: 0.1, dur: 1.35, ease: INOUT }],
+        ['big', [{ opacity: 0, transform: `translateY(${BIG_START})` }, { opacity: 0.08, transform: `translateY(${BIG_START})` }], { at: 0.3, dur: 0.25, ease: 'linear' }],
+        ['big', [{ transform: `translateY(${BIG_START})`, opacity: 0.08 }, { transform: `translateY(${BIG_FINAL})`, opacity: 0.14 }], { at: 1.05, dur: 0.5, ease: INOUT }],
+        ['bigEcho', [{ transform: `translateY(calc(${BIG_START} - 0.1em))`, opacity: 0 }, { transform: `translateY(calc(${BIG_FINAL} + 0.55em))`, opacity: 0.35, offset: 0.35 }, { transform: `translateY(calc(${BIG_FINAL} + 0.12em))`, opacity: 0.22, offset: 0.75 }, { transform: `translateY(${BIG_FINAL})`, opacity: 0 }], { at: 1.08, dur: 0.6, ease: INOUT }],
+        ['header', [{ opacity: 0 }, { opacity: 1 }], { at: 1.45, dur: 0.35, ease: SOFT }],
+        ['content', [{ opacity: 0, transform: 'translateY(12px)' }, { opacity: 1, transform: 'translateY(0)' }], { at: 1.7, dur: 0.45, ease: OUT }],
+        ['bottom', [{ opacity: 0 }, { opacity: 1 }], { at: 1.9, dur: 0.4, ease: SOFT }],
+      ];
+      const TOTAL = 2.4;
+      // 導入レイヤーは写真がヒーロー位置に収まった後、下の本体と同じ絵のまま透明化して消える
+      const finish = () => {
+        hero.classList.remove('is-intro');
+        document.body.classList.remove('is-intro');
+        fv.classList.add('is-done');
+        document.documentElement.style.overflow = '';
+      };
+      const play = () => {
+        // veil より上に置くため、導入中は fixed の fv がヘッダーも覆う
+        T.forEach(([k, frames, o]) => el[k].animate(frames, { delay: o.at * 1000, duration: o.dur * 1000, easing: o.ease, fill: 'forwards' }));
+        setTimeout(finish, TOTAL * 1000);
+      };
+      // 画像デコード完了を待つ（最大1.5秒）
+      const imgs = [el.frameImg as HTMLImageElement, hero.querySelector<HTMLImageElement>('.hero__slide.is-active img')!].filter(Boolean);
+      const ready = imgs.map((img) => (img.complete ? img.decode().catch(() => {}) : new Promise<void>((r) => { img.addEventListener('load', () => img.decode().then(() => r(), () => r()), { once: true }); img.addEventListener('error', () => r(), { once: true }); })));
+      Promise.race([Promise.all(ready), new Promise((r) => setTimeout(r, 1500))]).then(() => requestAnimationFrame(() => requestAnimationFrame(play)));
+      try { sessionStorage.setItem('noanohako-intro', '1'); } catch {}
+    } else if (fv) {
+      fv.classList.add('is-done');
+    }
+  }
+
+</script>
+
+<script>
+  // 背景イラストの泡に合わせた、下から上へゆっくり昇る泡（クリーム色の輪郭／小さな塗り）
+  const cv = document.querySelector<HTMLCanvasElement>('[data-bubbles]');
+  const reduceB = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (cv && !reduceB) {
+    const ctx = cv.getContext('2d')!;
+    let W = 0, H = 0, dpr = Math.min(2, window.devicePixelRatio || 1);
+    type B = { x: number; y: number; r: number; v: number; sway: number; ph: number; fill: boolean; a: number };
+    const bs: B[] = [];
+    const resize = () => {
+      const rect = cv.getBoundingClientRect(); W = rect.width; H = rect.height;
+      cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize(); window.addEventListener('resize', resize);
+    const spawn = (y = H + 20): B => {
+      const fill = Math.random() < 0.45;
+      return { x: Math.random() * W, y, r: fill ? 1.5 + Math.random() * 2.5 : 4 + Math.random() * 10, v: 12 + Math.random() * 22, sway: 6 + Math.random() * 14, ph: Math.random() * Math.PI * 2, fill, a: 0.55 + Math.random() * 0.35 };
+    };
+    const N = Math.round(Math.min(46, W / 30));
+    for (let i = 0; i < N; i++) bs.push(spawn(Math.random() * H));
+    let last = performance.now();
+    const cream = '238,232,214';
+    const draw = (now: number) => {
+      const dt = Math.min(0.05, (now - last) / 1000); last = now;
+      ctx.clearRect(0, 0, W, H);
+      for (const b of bs) {
+        b.y -= b.v * dt; b.ph += dt * 1.2;
+        const x = b.x + Math.sin(b.ph) * b.sway;
+        const fade = Math.min(1, (b.y + b.r) / 80) * Math.min(1, (H - b.y) / 60);
+        ctx.beginPath(); ctx.arc(x, b.y, b.r, 0, Math.PI * 2);
+        if (b.fill) { ctx.fillStyle = `rgba(${cream},${b.a * fade})`; ctx.fill(); }
+        else { ctx.lineWidth = 2; ctx.strokeStyle = `rgba(${cream},${b.a * fade})`; ctx.stroke(); }
+        if (b.y < -b.r - 10) Object.assign(b, spawn());
+      }
+      requestAnimationFrame(draw);
+    };
+    requestAnimationFrame(draw);
+  }
+</script>

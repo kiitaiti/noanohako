@@ -1,0 +1,135 @@
+---
+import { site, footerNav } from '../data/site';
+import Logo from './Logo.astro';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <a href="/" class="footer__logo" aria-label="のあのはこ ホーム">
+        <Logo variant="white" width={34} />
+        <span>のあのはこ</span>
+      </a>
+      <p class="footer__desc">
+        {site.fullName}<br />
+        {site.address.full}<br />
+        {site.nearestStation} {site.walk}
+      </p>
+      <p class="footer__contact">
+        <a href={site.telHref} data-location="footer">TEL {site.tel}</a>
+        <span class="footer__hours">電話受付 {site.receptionHours}</span>
+      </p>
+      <p class="footer__hours-note">通所時間 {site.hours.label}（休憩 {site.hours.breakLabel}）／工賃 {site.wage.label}</p>
+    </div>
+
+    <nav class="footer__nav" aria-label="フッターナビゲーション">
+      <ul>
+        {footerNav.map((n) => (
+          <li><a href={n.href}>{n.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="footer__legal">
+      <p>運営：<a href="/access/#company">{site.legalName}</a></p>
+      <p>連携施設：<a href={site.partner.url} target="_blank" rel="noopener">{site.partner.name}</a></p>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <div class="container">
+      <small>© {year} {site.legalName} — {site.fullName}</small>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--c-ink);
+    color: #d9dde3;
+    margin-top: auto;
+  }
+  .footer__inner {
+    display: grid;
+    gap: 40px;
+    padding-block: 64px 48px;
+  }
+  @media (min-width: 900px) {
+    .footer__inner {
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 48px;
+    }
+  }
+  .footer__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 18px;
+  }
+  .footer__logo :global(img) {
+    width: 34px;
+    height: auto;
+  }
+  .footer__desc {
+    font-size: var(--fs-sm);
+    line-height: 1.8;
+    color: #b8bfc9;
+  }
+  .footer__contact {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 14px;
+    margin-bottom: 4px;
+  }
+  .footer__contact a {
+    color: #fff;
+    font-family: var(--f-en);
+    font-weight: 700;
+    font-size: 1.15rem;
+    text-decoration: none;
+  }
+  .footer__hours,
+  .footer__hours-note {
+    font-size: var(--fs-xs);
+    color: #9aa3ae;
+  }
+  .footer__nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    columns: 2;
+    gap: 24px;
+  }
+  .footer__nav li {
+    break-inside: avoid;
+    margin-bottom: 8px;
+  }
+  .footer__nav a,
+  .footer__legal a {
+    color: #d9dde3;
+    text-decoration: none;
+    font-size: var(--fs-sm);
+  }
+  .footer__nav a:hover,
+  .footer__legal a:hover {
+    color: #fff;
+    text-decoration: underline;
+  }
+  .footer__legal p {
+    font-size: var(--fs-sm);
+    color: #b8bfc9;
+    margin-bottom: 8px;
+  }
+  .footer__bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-block: 18px;
+    font-size: var(--fs-xs);
+    color: #8d96a2;
+  }
+</style>
