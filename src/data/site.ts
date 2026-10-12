@@ -23,11 +23,11 @@ export const site = {
   /** 電話受付時間（通所時間と同じ） */
   receptionHours: '10:00〜15:00',
   address: {
-    postal: '252-1318',
+    postal: '252-0318',
     region: '神奈川県',
     locality: '相模原市南区',
     street: '上鶴間本町3-6-16',
-    full: '〒252-1318 神奈川県相模原市南区上鶴間本町3-6-16',
+    full: '〒252-0318 神奈川県相模原市南区上鶴間本町3-6-16',
   },
   nearestStation: '町田駅',
   walk: '徒歩6分',
