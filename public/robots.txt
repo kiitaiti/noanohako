@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /contact/thanks/
 
-Sitemap: https://noanohako.jp/sitemap-index.xml
+Sitemap: https://noanohako.co.jp/sitemap-index.xml

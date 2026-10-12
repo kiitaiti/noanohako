@@ -54,7 +54,7 @@ npm run verify         # ビルド後の検証
 |---|---|
 | `MICROCMS_SERVICE_DOMAIN` | microCMS のサービスドメイン（`xxxx.microcms.io` の `xxxx`） |
 | `MICROCMS_API_KEY` | microCMS API キー（GET 権限） |
-| `SITE_URL` | 公開URL（本番 `https://noanohako.jp`。プレビューは netlify.toml が自動設定） |
+| `SITE_URL` | 公開URL（本番 `https://noanohako.co.jp`。プレビューは netlify.toml が自動設定） |
 | `PUBLIC_GA_ID` | GA4 測定ID（`G-XXXXXXX`）。未設定なら計測タグは出力されない |
 | `ASTRO_NOINDEX` | `true` で全ページ noindex（プレビュー環境用。netlify.toml が自動設定） |
 
@@ -64,7 +64,7 @@ npm run verify         # ビルド後の検証
 2. Site settings → Environment variables に上記の環境変数を設定
 3. **Forms** を有効化（Site settings → Forms → Enable form detection）。初回デプロイ後、Forms に `contact` が検出される
 4. Forms → Notifications で通知先メールアドレスを設定（送信内容の受け取り先）
-5. 独自ドメイン `noanohako.jp` を割り当て、HTTPS を有効化
+5. 独自ドメイン `noanohako.co.jp` を割り当て、HTTPS を有効化
 6. **microCMS Webhook**: microCMS 側の Webhook に Netlify の Build hook URL を登録すると、記事公開時に自動で再ビルドされる
 
 ## 更新方法（microCMS）

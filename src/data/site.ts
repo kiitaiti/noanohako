@@ -16,12 +16,12 @@ export const site = {
   concept: '安心できる居場所で、好きなことから未来がひらく。',
   description:
     'のあのはこは、神奈川県相模原市南区（町田駅 徒歩6分）の就労継続支援B型事業所です。カフェまたはクリエイティブ（動画編集・SNS更新・3DCG・AI活用など）を中心とした作業を、通所時間10:00〜15:00・工賃 時給500円で、自分に合ったペースで取り組めます。見学・体験は随時ご相談ください。',
-  url: 'https://noanohako.jp',
+  url: 'https://noanohako.co.jp',
   email: 'noabox01@gmail.com',
   tel: '042-705-4422',
   telHref: 'tel:0427054422',
-  /** 現行サイト記載の電話受付時間。事業所としての受付時間か要確認（NOABOX月〜木の営業時間と同一）。 */
-  receptionHours: '10:00〜21:00',
+  /** 電話受付時間（通所時間と同じ） */
+  receptionHours: '10:00〜15:00',
   address: {
     postal: '252-1318',
     region: '神奈川県',

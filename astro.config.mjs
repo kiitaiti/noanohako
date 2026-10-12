@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 // 公開URL。Netlifyの環境変数 SITE_URL で上書き可能（プレビュー環境と本番を分けるため）
-const site = process.env.SITE_URL || 'https://noanohako.jp';
+const site = process.env.SITE_URL || 'https://noanohako.co.jp';
 
 export default defineConfig({
   site,
